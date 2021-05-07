@@ -81,3 +81,11 @@ if (! function_exists('user'))
 		return update()->getMessage()->getFrom();
 	}
 }
+
+if (! function_exists('str_contains'))
+{
+	function str_contains($string, $search) : bool
+	{
+		return strpos($string, $search) !== false;
+	}
+}

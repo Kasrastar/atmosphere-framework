@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model as EloquentModel;
 class Model extends EloquentModel
 {
 	/**
-	 * Save a new model and return the instance.
+	 * Create a new row and return model
 	 *
 	 * @param array $attributes
 	 *

@@ -6,7 +6,7 @@ namespace BotFramework\Database\Schemas;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-class   TableSchema
+class TableSchema
 {
 	protected $tableName;
 

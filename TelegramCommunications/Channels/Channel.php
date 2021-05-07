@@ -10,7 +10,7 @@ use BotFramework\Views\DefaultView;
 abstract class Channel
 {
 	protected static $channelID;
-	protected static $defaultView = DefaultView::class;
+	protected static $defaultView;
 
 	/**
 	 * Create post in specific view

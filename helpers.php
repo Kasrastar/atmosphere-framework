@@ -32,7 +32,7 @@ if (! function_exists('response'))
 if (! function_exists('update'))
 {
 	/**
-	 * Get current update
+	 * Get current update instance
 	 *
 	 * @return \Longman\TelegramBot\Entities\Update
 	 */
@@ -42,10 +42,23 @@ if (! function_exists('update'))
 	}
 }
 
+if (! function_exists('message'))
+{
+	/**
+	 * Get current message instance
+	 *
+	 * @return \Longman\TelegramBot\Entities\Message
+	 */
+	function message() : \Longman\TelegramBot\Entities\Message
+	{
+		return update()->getMessage();
+	}
+}
+
 if (! function_exists('chat'))
 {
 	/**
-	 * Get current chat
+	 * Get current chat instance
 	 *
 	 * @return \Longman\TelegramBot\Entities\Chat
 	 */
@@ -59,12 +72,12 @@ if (! function_exists('chat'))
 if (! function_exists('user'))
 {
 	/**
-	 * Get current update's user
+	 * Get current user instance
 	 *
 	 * @return \Longman\TelegramBot\Entities\User
 	 */
 	function user() : \Longman\TelegramBot\Entities\User
 	{
-		return \BotFramework\Facilities\Supports\CurrentUpdate::get()->getMessage()->getFrom();
+		return update()->getMessage()->getFrom();
 	}
 }

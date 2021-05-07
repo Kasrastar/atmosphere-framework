@@ -15,19 +15,14 @@ class ViewBuilder
 		$this->template = &$template;
 	}
 
-	public function line ($line)
+	public function text ($lines)
 	{
-		return $line . PHP_EOL;
-	}
-
-	public function string ($string)
-	{
-		return $string;
-	}
-
-	public function text ($closure)
-	{
-		$this->push([ 'text' => implode('', $closure()) ]);
+		$text = '';
+		foreach ($lines as $line)
+		{
+			$text .= $line . PHP_EOL;
+		}
+		$this->push(['text' => $text]);
 	}
 
 	public function photo ($path)
@@ -45,8 +40,8 @@ class ViewBuilder
 		$this->push([ $key => Request::encodeFile($path) ]);
 	}
 
-	private function push ($value)
+	private function push ($array)
 	{
-		array_push($this->template, $value);
+		array_push($this->template, $array);
 	}
 }

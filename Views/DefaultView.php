@@ -15,10 +15,6 @@ class DefaultView extends View
 
 	protected function template (ViewBuilder $builder)
 	{
-		$builder->text(function () use ($builder) {
-			return [
-				$builder->string($this->text)
-			];
-		});
+		$builder->text([$this->text]);
 	}
 }

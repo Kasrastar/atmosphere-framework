@@ -41,12 +41,7 @@ class TelegramRequest
 	 */
 	public function send ($chat_id, $view)
 	{
-		if (is_string($view))
-			$view = new DefaultView($view);
-
-		else if ( ! $view instanceof View)
-			throw new NotAViewClassException($view);
-
+		$view = $this->validate($view);
 		$renders = $view->render();
 
 		foreach ($renders as $render)
@@ -65,5 +60,24 @@ class TelegramRequest
 				Request::sendVideo($to_be_sent);
 
 		}
+	}
+
+	/**
+	 * Validate view or create new view if necessary
+	 *
+	 * @param string|View $view
+	 *
+	 * @return View
+	 * @throws NotAViewClassException
+	 */
+	private function validate ($view)
+	{
+		if (is_string($view))
+			return new DefaultView($view);
+
+		else if ( ! $view instanceof View)
+			throw new NotAViewClassException($view);
+
+		else return $view;
 	}
 }

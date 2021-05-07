@@ -6,21 +6,6 @@ namespace BotFramework\Facilities;
 
 class Response
 {
-	private static $instance;
-
-	/**
-	 * Singleton
-	 *
-	 * @return Response
-	 */
-	public function getInstance () : Response
-	{
-		if (is_null(self::$instance))
-			self::$instance = new Response;
-
-		return self::$instance;
-	}
-
 	/**
 	 * @var TelegramRequest
 	 */

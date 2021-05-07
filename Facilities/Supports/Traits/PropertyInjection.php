@@ -1,10 +1,10 @@
 <?php
 
 
-namespace BotFramework\Views;
+namespace BotFramework\Facilities\Supports\Traits;
 
 
-trait InjectProperties
+trait PropertyInjection
 {
 	/**
 	 * $args is an associative array which keys are the class property names

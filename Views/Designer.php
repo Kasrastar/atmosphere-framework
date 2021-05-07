@@ -6,7 +6,7 @@ namespace BotFramework\Views;
 
 use Longman\TelegramBot\Request;
 
-class ViewBuilder
+class Designer
 {
 	private $template;
 
@@ -15,7 +15,7 @@ class ViewBuilder
 		$this->template = &$template;
 	}
 
-	public function text ($lines)
+	public function addText ($lines)
 	{
 		$text = '';
 		foreach ($lines as $line)
@@ -25,12 +25,12 @@ class ViewBuilder
 		$this->push(['text' => $text]);
 	}
 
-	public function photo ($path)
+	public function addPhoto ($path)
 	{
 		$this->binaryFile('photo', $path);
 	}
 
-	public function video ($path)
+	public function addVideo ($path)
 	{
 		$this->binaryFile('video', $path);
 	}

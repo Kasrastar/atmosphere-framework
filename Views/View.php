@@ -8,12 +8,12 @@ abstract class View
 {
 	private $template;
 
-	protected function template (ViewBuilder $builder) { }
+	protected function template (Designer $design) { }
 
 	public function render () : array
 	{
 		$this->template = array();
-		$this->template(new ViewBuilder($this->template));
+		$this->template(new Designer($this->template));
 		return $this->template;
 	}
 }

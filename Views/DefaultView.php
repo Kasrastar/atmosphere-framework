@@ -13,8 +13,8 @@ class DefaultView extends View
 		$this->text = $text;
 	}
 
-	protected function template (ViewBuilder $builder)
+	protected function template (Designer $design)
 	{
-		$builder->text([$this->text]);
+		$design->addText([ $this->text ]);
 	}
 }

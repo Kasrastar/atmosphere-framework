@@ -15,14 +15,14 @@ class Boot
 		Dotenv::createImmutable(Application::getDir(), 'config.env')->load();
 		DatabaseServiceProvider::boot($in_memory_database);
 
-		LifeCycle::$middlewares = Application::getMiddlewares();
-		LifeCycle::$scenarios = Application::getScenarios();
+		LifeCycle::setMiddlewares(Application::getMiddlewares());
+		LifeCycle::setScenarios(Application::getScenarios());
 
 		return new self;
 	}
 
 	public function getUpdates ()
 	{
-		return BotServiceProvider::init(self::$projectDir)->handleGetUpdates()->getResult();
+		return BotServiceProvider::init(Application::getDir())->handleGetUpdates()->getResult();
 	}
 }

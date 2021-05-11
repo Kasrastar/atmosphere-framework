@@ -10,8 +10,8 @@ use BotFramework\Providers\MiddlewareServiceProvider;
 
 class LifeCycle
 {
-	public static $middlewares;
-	public static $scenarios;
+	private static $middlewares;
+	private static $scenarios;
 
 	public static function takeInto ($updates)
 	{
@@ -22,4 +22,22 @@ class LifeCycle
 				ScenarioServiceProvider::putInChains($update, self::$scenarios);
 		}
 	}
+
+	/**
+	 * @param string[] $middlewares
+	 */
+	public static function setMiddlewares ($middlewares)
+	{
+		self::$middlewares = $middlewares;
+	}
+
+	/**
+	 * @param string[] $scenarios
+	 */
+	public static function setScenarios ($scenarios) : void
+	{
+		self::$scenarios = $scenarios;
+	}
+
+
 }

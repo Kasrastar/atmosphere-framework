@@ -19,7 +19,7 @@ trait PropertyInjection
 	private function inject ($args)
 	{
 		$properties = array_keys(get_class_vars(self::class));
-		var_dump($properties);
+
 		foreach ($properties as $property)
 		{
 			$this->$property = $args[$property];

@@ -23,9 +23,15 @@ abstract class Channel
 	 */
 	public static function createPost ($view)
 	{
-		if ( ! $view instanceof View && ! is_string($view))
-			$view = new static::$defaultView(func_get_args()[0]);
+		if (is_string($view))
+		{
+			telegram(static::$channelID)->send($view);
+			return;
+		}
 
-		telegram()->send(static::$channelID, $view);
+		if (is_array($view))
+			$view = new static::$defaultView($view);
+
+		telegram(static::$channelID)->view($view);
 	}
 }

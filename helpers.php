@@ -1,16 +1,18 @@
 <?php
 
-
 if ( ! function_exists('telegram'))
 {
 	/**
 	 * Class used to send messages to specific chat
 	 *
-	 * @return \BotFramework\Facilities\TelegramRequest
+	 * @return \BotFramework\Gateway\TelegramRequest
 	 */
-	function telegram () : \BotFramework\Facilities\TelegramRequest
+	function telegram ($chat_id = '')
 	{
-		return new \BotFramework\Facilities\TelegramRequest;
+		if ($chat_id == '')
+			return \BotFramework\Providers\Container::get(\BotFramework\Gateway\TelegramRequest::class);
+		else
+			return new \BotFramework\Gateway\TelegramRequest($chat_id);
 	}
 }
 
@@ -20,11 +22,11 @@ if ( ! function_exists('response'))
 	/**
 	 * Smart class to easily send messages to the current chat
 	 *
-	 * @return \BotFramework\Facilities\Response
+	 * @return \BotFramework\Gateway\Response
 	 */
-	function response () : \BotFramework\Facilities\Response
+	function response ()
 	{
-		return new \BotFramework\Facilities\Response;
+		return \BotFramework\Providers\Container::get(\BotFramework\Gateway\Response::class);
 	}
 }
 
@@ -64,7 +66,7 @@ if ( ! function_exists('chat'))
 	 */
 	function chat () : \Longman\TelegramBot\Entities\Chat
 	{
-		return update()->getMessage()->getChat();
+		return message()->getChat();
 	}
 }
 
@@ -78,7 +80,7 @@ if ( ! function_exists('user'))
 	 */
 	function user () : \Longman\TelegramBot\Entities\User
 	{
-		return update()->getMessage()->getFrom();
+		return message()->getFrom();
 	}
 }
 
@@ -98,7 +100,7 @@ if ( ! function_exists('str_contains'))
 	}
 }
 
-if ( ! function_exists('db'))
+if ( ! function_exists('db_table'))
 {
 	/**
 	 * Query Builder
@@ -112,5 +114,3 @@ if ( ! function_exists('db'))
 		return \Illuminate\Database\Capsule\Manager::table($table);
 	}
 }
-
-

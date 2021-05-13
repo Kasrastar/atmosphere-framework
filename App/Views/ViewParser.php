@@ -1,10 +1,10 @@
 <?php
 
 
-namespace BotFramework\Views;
+namespace BotFramework\App\Views;
 
 
-use BotFramework\Exceptions\NotAViewClassException;
+use BotFramework\Core\Exceptions\NotAViewClassException;
 
 class ViewParser
 {

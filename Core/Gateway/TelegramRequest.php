@@ -1,16 +1,15 @@
 <?php
 
 
-namespace BotFramework\Gateway;
+namespace BotFramework\Core\Gateway;
 
 
-use BotFramework\Views\View;
+use BotFramework\App\Views\View;
 use BotFramework\Application;
 use Longman\TelegramBot\Request;
-use BotFramework\Views\ViewParser;
-use BotFramework\Views\DefaultView;
-use Longman\TelegramBot\Entities\Update;
-use BotFramework\Exceptions\NotAViewClassException;
+use BotFramework\App\Views\ViewParser;
+use BotFramework\App\Views\DefaultView;
+use BotFramework\Core\Exceptions\NotAViewClassException;
 
 class TelegramRequest
 {
@@ -47,6 +46,25 @@ class TelegramRequest
 		return $this;
 	}
 
+	public function send ($message)
+	{
+		$this->view(new DefaultView($message));
+	}
+
+	/**
+	 * Send one or multiple views
+	 *
+	 * @param View|View[] $views
+	 *
+	 * @throws \Longman\TelegramBot\Exception\TelegramException
+	 */
+	public function view ($views)
+	{
+		$this->validateViews($views);
+		$messages = ViewParser::parse($views);
+		$this->callApi($messages);
+	}
+
 	/**
 	 * Send a text or a view to specific chat
 	 *
@@ -78,22 +96,18 @@ class TelegramRequest
 		}
 	}
 
-	public function send ($message)
-	{
-		$this->view(new DefaultView($message));
-	}
-
 	/**
-	 * Send one or multiple views
+	 * @param $views
 	 *
-	 * @param View|View[] $views
-	 *
-	 * @throws \Longman\TelegramBot\Exception\TelegramException
+	 * @throws NotAViewClassException
 	 */
-	public function view ($views)
+	private function validateViews ($views)
 	{
-		$messages = ViewParser::parse($views);
-		$this->callApi($messages);
+		$views = is_array($views) ? $views : [$views];
+
+		foreach ($views as $view)
+			if (!$view instanceof View)
+				throw new NotAViewClassException($view);
 	}
 
 	/**

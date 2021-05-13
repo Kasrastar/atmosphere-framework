@@ -1,14 +1,14 @@
 <?php
 
 
-namespace BotFramework\Views;
+namespace BotFramework\App\Views;
 
 
 abstract class View
 {
 	private $template;
 
-	protected function template (Designer $design) { }
+	abstract protected function template (Designer $designer);
 
 	public function render () : array
 	{

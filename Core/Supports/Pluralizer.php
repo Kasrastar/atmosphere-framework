@@ -4,7 +4,7 @@
  * From Laravel Supporters
  */
 
-namespace BotFramework\Facilities\Supports;
+namespace BotFramework\Core\Supports;
 
 
 use Doctrine\Inflector\CachedWordInflector;

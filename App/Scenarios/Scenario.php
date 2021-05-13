@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Scenarios;
+namespace BotFramework\App\Scenarios;
 
 
 use Longman\TelegramBot\Entities\Update;
@@ -41,5 +41,5 @@ abstract class Scenario
 		return true;
 	}
 
-	protected function handle (Update $update) { }
+	abstract protected function handle (Update $update);
 }

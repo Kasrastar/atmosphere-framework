@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Views;
+namespace BotFramework\App\Views;
 
 
 class DefaultView extends View

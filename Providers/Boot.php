@@ -7,6 +7,7 @@ namespace BotFramework\Providers;
 use Dotenv\Dotenv;
 use BotFramework\LifeCycle;
 use BotFramework\Application;
+use Longman\TelegramBot\Entities\Update;
 
 class Boot
 {
@@ -19,6 +20,12 @@ class Boot
 		LifeCycle::setScenarios(Application::getScenarios());
 
 		return new self;
+	}
+
+	public function getUpdatesWithWebhook ()
+	{
+		BotServiceProvider::initForWebhook(Application::getDir());
+		return [new Update(json_decode(file_get_contents('php://input'), true), $_ENV['BOT_USERNAME'])];
 	}
 
 	public function getUpdates ()

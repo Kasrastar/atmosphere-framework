@@ -5,7 +5,7 @@ namespace BotFramework;
 
 
 use BotFramework\Providers\ScenarioServiceProvider;
-use BotFramework\Facilities\Supports\CurrentUpdate;
+use BotFramework\Core\Gateway\CurrentUpdate;
 use BotFramework\Providers\MiddlewareServiceProvider;
 
 class LifeCycle
@@ -38,6 +38,4 @@ class LifeCycle
 	{
 		self::$scenarios = $scenarios;
 	}
-
-
 }

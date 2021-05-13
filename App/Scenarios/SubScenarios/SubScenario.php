@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Scenarios\SubScenarios;
+namespace BotFramework\App\Scenarios\SubScenarios;
 
 
 use Longman\TelegramBot\Entities\Update;
@@ -13,5 +13,5 @@ abstract class SubScenario
 		$this->handle($update);
 	}
 
-	protected function handle (Update $update) { }
+	abstract protected function handle (Update $update);
 }

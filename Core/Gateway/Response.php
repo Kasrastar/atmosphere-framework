@@ -1,11 +1,10 @@
 <?php
 
 
-namespace BotFramework\Gateway;
+namespace BotFramework\Core\Gateway;
 
 
-use BotFramework\Views\View;
-use BotFramework\Views\DefaultView;
+use BotFramework\App\Views\View;
 
 class Response
 {

@@ -1,11 +1,10 @@
 <?php
 
 
-namespace BotFramework\TelegramCommunications\Channels;
+namespace BotFramework\App\TelegramCommunications\Channels;
 
 
-use BotFramework\Views\View;
-use BotFramework\Views\DefaultView;
+use BotFramework\App\Views\View;
 
 abstract class Channel
 {

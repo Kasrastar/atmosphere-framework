@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Facilities\Supports\Traits;
+namespace BotFramework\Core\Supports\Traits;
 
 
 trait Singleton

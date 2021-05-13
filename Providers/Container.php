@@ -4,9 +4,9 @@
 namespace BotFramework\Providers;
 
 
-use BotFramework\Gateway\Response;
-use BotFramework\Gateway\TelegramRequest;
-use BotFramework\Facilities\Supports\Traits\Singleton;
+use BotFramework\Core\Gateway\Response;
+use BotFramework\Core\Gateway\TelegramRequest;
+use BotFramework\Core\Supports\Traits\Singleton;
 
 use function DI\create;
 use function DI\autowire;

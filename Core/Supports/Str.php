@@ -5,7 +5,7 @@
  * (with some modifications)
  */
 
-namespace BotFramework\Facilities\Supports;
+namespace BotFramework\Core\Supports;
 
 
 class Str

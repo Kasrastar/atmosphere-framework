@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Facilities\Supports;
+namespace BotFramework\Core\Gateway;
 
 
 use Longman\TelegramBot\Entities\Update;

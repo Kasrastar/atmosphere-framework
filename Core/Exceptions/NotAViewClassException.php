@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Exceptions;
+namespace BotFramework\Core\Exceptions;
 
 
 use Throwable;
@@ -13,6 +13,6 @@ class NotAViewClassException extends \Exception
 	public function __construct ($var)
 	{
 		$this->message = str_replace('\$var', $var, $this->message);
-		parent::__construct("", 0, null);
+		parent::__construct($this->message, 0, null);
 	}
 }

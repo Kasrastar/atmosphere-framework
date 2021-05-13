@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Models;
+namespace BotFramework\App\Models;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 

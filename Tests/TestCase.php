@@ -6,8 +6,6 @@ namespace BotFramework\Tests;
 
 use BotFramework\LifeCycle;
 use BotFramework\Application;
-use PHPUnit\Framework\Assert;
-use BotFramework\Models\Model;
 use BotFramework\Providers\Boot;
 use Longman\TelegramBot\Entities\Update;
 use PHPUnit\Framework\TestCase as PhpUnit_TestCase;

@@ -5,14 +5,14 @@ if ( ! function_exists('telegram'))
 	/**
 	 * Class used to send messages to specific chat
 	 *
-	 * @return \BotFramework\Gateway\TelegramRequest
+	 * @return \BotFramework\Core\Gateway\TelegramRequest
 	 */
 	function telegram ($chat_id = '')
 	{
 		if ($chat_id == '')
-			return \BotFramework\Providers\Container::get(\BotFramework\Gateway\TelegramRequest::class);
+			return \BotFramework\Providers\Container::get(\BotFramework\Core\Gateway\TelegramRequest::class);
 		else
-			return new \BotFramework\Gateway\TelegramRequest($chat_id);
+			return new \BotFramework\Core\Gateway\TelegramRequest($chat_id);
 	}
 }
 
@@ -22,11 +22,11 @@ if ( ! function_exists('response'))
 	/**
 	 * Smart class to easily send messages to the current chat
 	 *
-	 * @return \BotFramework\Gateway\Response
+	 * @return \BotFramework\Core\Gateway\Response
 	 */
 	function response ()
 	{
-		return \BotFramework\Providers\Container::get(\BotFramework\Gateway\Response::class);
+		return \BotFramework\Providers\Container::get(\BotFramework\Core\Gateway\Response::class);
 	}
 }
 
@@ -40,7 +40,7 @@ if ( ! function_exists('update'))
 	 */
 	function update () : \Longman\TelegramBot\Entities\Update
 	{
-		return \BotFramework\Facilities\Supports\CurrentUpdate::get();
+		return \BotFramework\Core\Gateway\CurrentUpdate::get();
 	}
 }
 

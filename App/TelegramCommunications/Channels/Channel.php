@@ -8,7 +8,18 @@ use BotFramework\App\Views\View;
 
 abstract class Channel
 {
+	/**
+	 * Telegram Channel ID
+	 *
+	 * @var string
+	 */
 	protected static $channelID;
+
+	/**
+	 * Default channel view used by Channel::createPost()
+	 *
+	 * @var class-string
+	 */
 	protected static $defaultView;
 
 	/**

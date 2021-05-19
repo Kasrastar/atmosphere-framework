@@ -6,23 +6,19 @@ namespace BotFramework\Database\Schemas;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-class TableSchema
+abstract class TableSchema
 {
+	/**
+	 * @var string
+	 */
 	protected $tableName;
 
 	/**
-	 * Force database to create table
+	 * Create table with defined schema
+	 *
+	 * @return void
 	 */
-	public function up () { }
-
-	/**
-	 * Create table only if not already there
-	 */
-	public function createIfNotExists ()
-	{
-		if (! Capsule::schema()->hasTable($this->tableName))
-			$this->up();
-	}
+	abstract public function up ();
 
 	/**
 	 * Drop table
@@ -33,5 +29,16 @@ class TableSchema
 	{
 		Capsule::schema()->dropIfExists($this->tableName);
 		return $this;
+	}
+
+	/**
+	 * Create table only if not already there
+	 *
+	 * @return void
+	 */
+	public function createIfNotExists ()
+	{
+		if (! Capsule::schema()->hasTable($this->tableName))
+			$this->up();
 	}
 }

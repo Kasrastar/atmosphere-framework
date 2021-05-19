@@ -9,6 +9,13 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 class DatabaseServiceProvider
 {
+	/**
+	 * Setup full support for Laravel Eloquent
+	 *
+	 * @param boolean $in_memory
+	 *
+	 * @return void
+	 */
 	public static function boot ($in_memory)
 	{
 		$capsule = new Capsule;
@@ -47,6 +54,13 @@ class DatabaseServiceProvider
 		$capsule->bootEloquent();
 	}
 
+	/**
+	 * Build database according to schemas
+	 *
+	 * @param boolean $rebuild
+	 *
+	 * @return void
+	 */
 	public static function build ($rebuild = false)
 	{
 		$schemas = \BotFramework\Application::getSchemas();

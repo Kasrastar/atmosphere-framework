@@ -1,18 +1,47 @@
 <?php
 
+
+use Longman\TelegramBot\Entities\Chat;
+use Longman\TelegramBot\Entities\User;
+use Longman\TelegramBot\Entities\Update;
+use Illuminate\Database\Capsule\Manager;
+use Longman\TelegramBot\Entities\Message;
+use BotFramework\Core\Container\Container;
+use BotFramework\Core\Gateway\TelegramRequest;
+use BotFramework\Core\Gateway\Response;
+use Longman\TelegramBot\Entities\CallbackQuery;
+
+
+if (! function_exists('container'))
+{
+	/**
+	 * Get class from global available container
+	 *
+	 * @param $class
+	 *
+	 * @return mixed
+	 * @throws \DI\DependencyException
+	 * @throws \DI\NotFoundException
+	 */
+	function container($class)
+	{
+		return Container::get($class);
+	}
+}
+
 if ( ! function_exists('telegram'))
 {
 	/**
 	 * Class used to send messages to specific chat
 	 *
-	 * @return \BotFramework\Core\Gateway\TelegramRequest
+	 * @return TelegramRequest
 	 */
-	function telegram ($chat_id = '')
+	function telegram ($chat_id = null)
 	{
-		if ($chat_id == '')
-			return \BotFramework\Providers\Container::get(\BotFramework\Core\Gateway\TelegramRequest::class);
+		if (is_null($chat_id))
+			return container(TelegramRequest::class);
 		else
-			return new \BotFramework\Core\Gateway\TelegramRequest($chat_id);
+			return new TelegramRequest($chat_id);
 	}
 }
 
@@ -22,11 +51,11 @@ if ( ! function_exists('response'))
 	/**
 	 * Smart class to easily send messages to the current chat
 	 *
-	 * @return \BotFramework\Core\Gateway\Response
+	 * @return \
 	 */
 	function response ()
 	{
-		return \BotFramework\Providers\Container::get(\BotFramework\Core\Gateway\Response::class);
+		return container(Response::class);
 	}
 }
 
@@ -36,37 +65,54 @@ if ( ! function_exists('update'))
 	/**
 	 * Get current update instance
 	 *
-	 * @return \Longman\TelegramBot\Entities\Update
+	 * @return Update
 	 */
-	function update () : \Longman\TelegramBot\Entities\Update
+	function update ()
 	{
-		return \BotFramework\Core\Gateway\CurrentUpdate::get();
+		return container(Update::class);
 	}
 }
+
+
+if (! function_exists('callback_query'))
+{
+	/**
+	 * @return CallbackQuery
+	 *
+	 * @throws \DI\DependencyException
+	 * @throws \DI\NotFoundException
+	 */
+	function callback_query()
+	{
+		return container(CallbackQuery::class);
+	}
+}
+
 
 if ( ! function_exists('message'))
 {
 	/**
 	 * Get current message instance
 	 *
-	 * @return \Longman\TelegramBot\Entities\Message
+	 * @return Message
 	 */
-	function message () : \Longman\TelegramBot\Entities\Message
+	function message ()
 	{
-		return update()->getMessage();
+		return container(Message::class);
 	}
 }
+
 
 if ( ! function_exists('chat'))
 {
 	/**
 	 * Get current chat instance
 	 *
-	 * @return \Longman\TelegramBot\Entities\Chat
+	 * @return Chat
 	 */
-	function chat () : \Longman\TelegramBot\Entities\Chat
+	function chat ()
 	{
-		return message()->getChat();
+		return container(Chat::class);
 	}
 }
 
@@ -76,13 +122,14 @@ if ( ! function_exists('user'))
 	/**
 	 * Get current user instance
 	 *
-	 * @return \Longman\TelegramBot\Entities\User
+	 * @return User
 	 */
-	function user () : \Longman\TelegramBot\Entities\User
+	function user ()
 	{
-		return message()->getFrom();
+		return container(User::class);
 	}
 }
+
 
 if ( ! function_exists('str_contains'))
 {
@@ -94,11 +141,12 @@ if ( ! function_exists('str_contains'))
 	 *
 	 * @return bool
 	 */
-	function str_contains ($string, $search) : bool
+	function str_contains ($string, $search)
 	{
 		return strpos($string, $search) !== false;
 	}
 }
+
 
 if ( ! function_exists('db_table'))
 {
@@ -109,8 +157,8 @@ if ( ! function_exists('db_table'))
 	 *
 	 * @return \Illuminate\Database\Query\Builder
 	 */
-	function db_table ($table) : \Illuminate\Database\Query\Builder
+	function db_table ($table)
 	{
-		return \Illuminate\Database\Capsule\Manager::table($table);
+		return Manager::table($table);
 	}
 }

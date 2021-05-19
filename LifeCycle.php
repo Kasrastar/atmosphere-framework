@@ -4,38 +4,54 @@
 namespace BotFramework;
 
 
+use BotFramework\Core\Container\Container;
+use Longman\TelegramBot\Entities\Update;
+use BotFramework\Core\Container\CurrentUpdate;
+use Longman\TelegramBot\Entities\CallbackQuery;
 use BotFramework\Providers\ScenarioServiceProvider;
-use BotFramework\Core\Gateway\CurrentUpdate;
 use BotFramework\Providers\MiddlewareServiceProvider;
 
 class LifeCycle
 {
-	private static $middlewares;
-	private static $scenarios;
-
+	/**
+	 * Take received updates into lifecycle
+	 *
+	 * @param Update[] $updates
+	 *
+	 * @return void
+	 */
 	public static function takeInto ($updates)
 	{
 		foreach ($updates as $update)
 		{
-			CurrentUpdate::set($update);
-			if (MiddlewareServiceProvider::putInChains($update, self::$middlewares))
-				ScenarioServiceProvider::putInChains($update, self::$scenarios);
+			Container::set(Update::class, $update);
+
+			if (CurrentUpdate::isCallbackQuery())
+				self::followCallbackQueryLifeCycle($update->getCallbackQuery());
+			else
+				self::followUpdateLifeCycle($update);
 		}
 	}
 
 	/**
-	 * @param string[] $middlewares
+	 * @param CallbackQuery $query
+	 *
+	 * @return void
 	 */
-	public static function setMiddlewares ($middlewares)
+	private static function followCallbackQueryLifeCycle ($query)
 	{
-		self::$middlewares = $middlewares;
+		if (MiddlewareServiceProvider::putCallbackQueryInChains($query))
+			ScenarioServiceProvider::putCallbackQueryInChains($query);
 	}
 
 	/**
-	 * @param string[] $scenarios
+	 * @param Update $update
+	 *
+	 * @return void
 	 */
-	public static function setScenarios ($scenarios) : void
+	private static function followUpdateLifeCycle ($update)
 	{
-		self::$scenarios = $scenarios;
+		if (MiddlewareServiceProvider::putInChains($update))
+			ScenarioServiceProvider::putInChains($update);
 	}
 }

@@ -9,6 +9,10 @@ use BotFramework\Application;
 use Longman\TelegramBot\Request;
 use BotFramework\App\Views\ViewParser;
 use BotFramework\App\Views\DefaultView;
+use Longman\TelegramBot\Entities\Keyboard;
+use BotFramework\App\Keyboards\KeyboardMarkup;
+use BotFramework\App\Keyboards\ReplyKeyboardButton;
+use BotFramework\App\Keyboards\InlineKeyboardButton;
 use BotFramework\Core\Exceptions\NotAViewClassException;
 
 class TelegramRequest
@@ -36,7 +40,39 @@ class TelegramRequest
 	}
 
 	/**
-	 * make a reply to current message
+	 * Disable notification
+	 *
+	 * @return void
+	 */
+	public function silent ()
+	{
+		$this->extraParameters['disable_notification'] = true;
+	}
+
+	/**
+	 * Send keyboard
+	 *
+	 * @param KeyboardMarkup $keyboard
+	 *
+	 * @return void
+	 */
+	public function keyboard (KeyboardMarkup $keyboard)
+	{
+		$this->extraParameters['reply_markup'] = $keyboard->render();
+	}
+
+	/**
+	 * Remove keyboard
+	 *
+	 * @return void
+	 */
+	public function removeKeyboard ()
+	{
+		$this->extraParameters['remove_keyboard'] = true;
+	}
+
+	/**
+	 * make reply to current message
 	 *
 	 * @return $this
 	 */
@@ -46,6 +82,13 @@ class TelegramRequest
 		return $this;
 	}
 
+	/**
+	 * Send simple text
+	 *
+	 * @param string $message
+	 *
+	 * @throws \Longman\TelegramBot\Exception\TelegramException
+	 */
 	public function send ($message)
 	{
 		$this->view(new DefaultView($message));
@@ -93,21 +136,25 @@ class TelegramRequest
 			else if ($type == 'video')
 				Request::sendVideo($to_be_sent);
 
+			else if ($type == 'emoji')
+				Request::sendDice($to_be_sent);
 		}
 	}
 
 	/**
-	 * @param $views
+	 * @param mixed $views
 	 *
 	 * @throws NotAViewClassException
 	 */
 	private function validateViews ($views)
 	{
-		$views = is_array($views) ? $views : [$views];
+		$views = is_array($views) ? $views : [ $views ];
 
 		foreach ($views as $view)
-			if (!$view instanceof View)
+		{
+			if ( ! $view instanceof View)
 				throw new NotAViewClassException($view);
+		}
 	}
 
 	/**

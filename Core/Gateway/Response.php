@@ -5,6 +5,8 @@ namespace BotFramework\Core\Gateway;
 
 
 use BotFramework\App\Views\View;
+use Longman\TelegramBot\Entities\Message;
+use BotFramework\App\Keyboards\KeyboardMarkup;
 
 class Response
 {
@@ -24,14 +26,48 @@ class Response
 	 * @param TelegramRequest $telegram_request
 	 * @param integer         $message_id
 	 */
-	public function __construct (TelegramRequest $telegram_request, $message_id)
+	public function __construct (TelegramRequest $telegram_request, Message $message)
 	{
 		$this->telegramRequest = $telegram_request;
-		$this->messageID = $message_id;
+		$this->messageID = $message->getMessageId();
 	}
 
 	/**
-	 * make a reply to current message
+	 * Disable notification
+	 *
+	 * @return $this
+	 */
+	public function silent ()
+	{
+		$this->telegramRequest->silent();
+		return $this;
+	}
+
+	/**
+	 * Send keyboard
+	 *
+	 * @param KeyboardMarkup $keyboard
+	 *
+	 * @return $this
+	 */
+	public function keyboard (KeyboardMarkup $keyboard)
+	{
+		$this->telegramRequest->keyboard($keyboard);
+		return $this;
+	}
+
+	/**
+	 * Remove keyboard
+	 *
+	 * @return void
+	 */
+	public function removeKeyboard ()
+	{
+		$this->telegramRequest->removeKeyboard();
+	}
+
+	/**
+	 * make reply to current message
 	 *
 	 * @return $this
 	 */
@@ -45,6 +81,8 @@ class Response
 	 * Send simple text message
 	 *
 	 * @param string $message
+	 *
+	 * @return void
 	 */
 	public function send ($message)
 	{
@@ -56,6 +94,7 @@ class Response
 	 *
 	 * @param View|View[] $views
 	 *
+	 * @return void
 	 * @throws \Longman\TelegramBot\Exception\TelegramException
 	 */
 	public function view ($views)

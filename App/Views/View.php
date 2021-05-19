@@ -4,16 +4,41 @@
 namespace BotFramework\App\Views;
 
 
+use BotFramework\App\Views\Types\Type;
+
 abstract class View
 {
+	/**
+	 * @var string
+	 */
 	private $template;
 
-	abstract protected function template (Designer $designer);
-
-	public function render () : array
+	/**
+	 * Render view template
+	 *
+	 * @return array
+	 */
+	public function render ()
 	{
-		$this->template = array();
-		$this->template(new Designer($this->template));
+		$this->template = [];
+		$this->template();
 		return $this->template;
 	}
+
+	/**
+	 * Add new element on view
+	 *
+	 * @param Type $type
+	 */
+	final protected function add (Type $type)
+	{
+		$this->template[] = $type->render();
+	}
+
+	/**
+	 * Design the template
+	 *
+	 * @return void
+	 */
+	abstract protected function template ();
 }

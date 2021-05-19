@@ -9,7 +9,7 @@ use BotFramework\Core\Exceptions\NotAViewClassException;
 class ViewParser
 {
 	/**
-	 * Parse views
+	 * Parse views and prepare raw data to send
 	 *
 	 * @param View|View[] $views
 	 *
@@ -32,6 +32,11 @@ class ViewParser
 		return $renders;
 	}
 
+	/**
+	 * @param $view
+	 *
+	 * @throws NotAViewClassException
+	 */
 	private static function validate ($view)
 	{
 		if ( ! $view instanceof View)

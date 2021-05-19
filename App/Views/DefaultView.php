@@ -4,6 +4,9 @@
 namespace BotFramework\App\Views;
 
 
+use BotFramework\App\Views\Designer\Types\Text;
+use BotFramework\App\Views\Designer\Designer;
+
 class DefaultView extends View
 {
 	private $text;
@@ -15,6 +18,6 @@ class DefaultView extends View
 
 	protected function template (Designer $design)
 	{
-		$design->addText([ $this->text ]);
+		$design->add(new Text([$this->text]));
 	}
 }

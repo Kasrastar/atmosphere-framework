@@ -8,11 +8,21 @@ use Faker\Generator;
 
 abstract class AbstractFactory
 {
+	/**
+	 * @var class-string
+	 */
 	protected static $class;
 
+	/**
+	 * Make object/objects
+	 *
+	 * @param int $count
+	 *
+	 * @return array|mixed
+	 */
 	public static function make ($count = 1)
 	{
-		$objects = array();
+		$objects = [];
 		$faker = \Faker\Factory::create();
 
 		for ($i = 0; $i < $count; $i++)
@@ -26,5 +36,12 @@ abstract class AbstractFactory
 		return $objects;
 	}
 
+	/**
+	 * Factory definition
+	 *
+	 * @param Generator $faker
+	 *
+	 * @return array
+	 */
 	abstract static function definition (Generator $faker);
 }

@@ -8,8 +8,16 @@ use Faker\Generator;
 
 class UserFactory extends AbstractFactory
 {
+	/**
+	 * @var class-string
+	 */
 	protected static $class = \Longman\TelegramBot\Entities\User::class;
 
+	/**
+	 * @param Generator $faker
+	 *
+	 * @return array
+	 */
 	public static function definition (Generator $faker)
 	{
 		return [

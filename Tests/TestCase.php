@@ -19,6 +19,7 @@ class TestCase extends PhpUnit_TestCase
 	/**
 	 * Boot virtual Bot
 	 *
+	 * @return void
 	 * @throws \Exception
 	 */
 	public static function setUpBeforeClass () : void
@@ -30,6 +31,8 @@ class TestCase extends PhpUnit_TestCase
 
 	/**
 	 * Execute before each test
+	 *
+	 * @return void
 	 */
 	protected function setUp () : void
 	{
@@ -40,8 +43,10 @@ class TestCase extends PhpUnit_TestCase
 	 * Assume incoming update in test
 	 *
 	 * @param Update|Update[] $updates
+	 *
+	 * @return void
 	 */
-	protected function incomingUpdate ($updates) : void
+	protected function incomingUpdate ($updates)
 	{
 		$updates = is_array($updates) ? $updates : [$updates];
 
@@ -49,9 +54,11 @@ class TestCase extends PhpUnit_TestCase
 	}
 
 	/**
-	 * Check child class trait use
+	 * Check child class traits
+	 *
+	 * @return void
 	 */
-	private function checkTrait () : void
+	private function checkTrait ()
 	{
 		if (isset(array_flip(class_uses($this))[ RefreshDatabase::class ]))
 			$this->refreshDatabase();

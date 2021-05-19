@@ -8,8 +8,16 @@ use Faker\Generator;
 
 class ChatFactory extends AbstractFactory
 {
+	/**
+	 * @var class-string
+	 */
 	protected static $class = \Longman\TelegramBot\Entities\Chat::class;
 
+	/**
+	 * @param Generator $faker
+	 *
+	 * @return array
+	 */
 	public static function definition (Generator $faker)
 	{
 		return [
@@ -21,6 +29,13 @@ class ChatFactory extends AbstractFactory
 		];
 	}
 
+	/**
+	 * Make this chat compatible with specific user
+	 *
+	 * @param $user_definition
+	 *
+	 * @return array
+	 */
 	public static function syncWithUser ($user_definition)
 	{
 		unset($user_definition['is_bot']);

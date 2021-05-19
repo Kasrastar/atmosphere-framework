@@ -4,7 +4,16 @@
 namespace BotFramework\App\Scenarios\Conditions;
 
 
+use Longman\TelegramBot\Entities\Update;
+
 abstract class Condition
 {
-	abstract public function check (\Longman\TelegramBot\Entities\Update $update) : bool;
+	/**
+	 * Check if current update meets current condition or not
+	 *
+	 * @param Update $update
+	 *
+	 * @return bool
+	 */
+	abstract public function check (Update $update);
 }

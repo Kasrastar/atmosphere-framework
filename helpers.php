@@ -51,7 +51,7 @@ if ( ! function_exists('response'))
 	/**
 	 * Smart class to easily send messages to the current chat
 	 *
-	 * @return \
+	 * @return Response
 	 */
 	function response ()
 	{

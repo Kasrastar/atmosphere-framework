@@ -42,11 +42,12 @@ class TelegramRequest
 	/**
 	 * Disable notification
 	 *
-	 * @return void
+	 * @return $this
 	 */
 	public function silent ()
 	{
 		$this->extraParameters['disable_notification'] = true;
+		return $this;
 	}
 
 	/**
@@ -54,21 +55,23 @@ class TelegramRequest
 	 *
 	 * @param KeyboardMarkup $keyboard
 	 *
-	 * @return void
+	 * @return $this
 	 */
 	public function keyboard (KeyboardMarkup $keyboard)
 	{
 		$this->extraParameters['reply_markup'] = $keyboard->render();
+		return $this;
 	}
 
 	/**
 	 * Remove keyboard
 	 *
-	 * @return void
+	 * @return $this
 	 */
 	public function removeKeyboard ()
 	{
-		$this->extraParameters['remove_keyboard'] = true;
+		$this->extraParameters['reply_markup'] = ['remove_keyboard' =>  true];
+		return $this;
 	}
 
 	/**
@@ -76,7 +79,7 @@ class TelegramRequest
 	 *
 	 * @return $this
 	 */
-	public function reply ($message_id) : TelegramRequest
+	public function reply ($message_id)
 	{
 		$this->extraParameters['reply_to_message_id'] = $message_id;
 		return $this;
@@ -91,7 +94,7 @@ class TelegramRequest
 	 */
 	public function send ($message)
 	{
-		$this->view(new DefaultView($message));
+		$this->view(new DefaultView(['text' => $message]));
 	}
 
 	/**

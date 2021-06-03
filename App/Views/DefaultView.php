@@ -4,20 +4,18 @@
 namespace BotFramework\App\Views;
 
 
-use BotFramework\App\Views\Designer\Types\Text;
-use BotFramework\App\Views\Designer\Designer;
+use BotFramework\App\Views\View;
+use BotFramework\App\Views\Types\Text;
+use BotFramework\Core\Supports\Traits\PropertyInjection;
 
 class DefaultView extends View
 {
+	use PropertyInjection;
+
 	private $text;
 
-	public function __construct ($text)
+	protected function template ()
 	{
-		$this->text = $text;
-	}
-
-	protected function template (Designer $design)
-	{
-		$design->add(new Text([$this->text]));
+		$this->add(new Text([$this->text]));
 	}
 }

@@ -59,11 +59,12 @@ class Response
 	/**
 	 * Remove keyboard
 	 *
-	 * @return void
+	 * @return Response
 	 */
 	public function removeKeyboard ()
 	{
 		$this->telegramRequest->removeKeyboard();
+		return $this;
 	}
 
 	/**
@@ -84,7 +85,7 @@ class Response
 	 *
 	 * @return void
 	 */
-	public function send ($message)
+	public function send ($message = '')
 	{
 		$this->telegramRequest->send($message);
 	}

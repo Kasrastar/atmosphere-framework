@@ -1,15 +1,15 @@
 <?php
 
 
-namespace BotFramework\Tests;
+namespace Atmosphere\Tests;
 
 
-use BotFramework\LifeCycle;
-use BotFramework\Application;
-use BotFramework\Providers\Boot;
+use Atmosphere\LifeCycle;
+use Atmosphere\Application;
+use Atmosphere\Providers\Boot;
 use Longman\TelegramBot\Entities\Update;
 use PHPUnit\Framework\TestCase as PhpUnit_TestCase;
-use BotFramework\Providers\DatabaseServiceProvider;
+use Atmosphere\Providers\DatabaseServiceProvider;
 
 /**
  * @method refreshDatabase() // Comes from trait in child class

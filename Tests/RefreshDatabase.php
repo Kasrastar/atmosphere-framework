@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Tests;
+namespace Atmosphere\Tests;
 
 
 trait RefreshDatabase
@@ -13,6 +13,6 @@ trait RefreshDatabase
 	 */
 	public function refreshDatabase ()
 	{
-		\BotFramework\Providers\DatabaseServiceProvider::build(true);
+		\Atmosphere\Providers\DatabaseServiceProvider::build(true);
 	}
 }

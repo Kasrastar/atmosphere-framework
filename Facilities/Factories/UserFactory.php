@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Facilities\Factories;
+namespace Atmosphere\Facilities\Factories;
 
 
 use Faker\Generator;

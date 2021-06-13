@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework;
+namespace Atmosphere;
 
 
 use Exception;
@@ -54,6 +54,16 @@ class Application
 	public static function getSchemas ()
 	{
 		return \Bot\Application::getSchemas();
+	}
+
+	/**
+	 * Load localizations
+	 *
+	 * @return string[]
+	 */
+	public static function getLocalizations ()
+	{
+		return \Bot\Application::getLocalizations();
 	}
 
 	/**

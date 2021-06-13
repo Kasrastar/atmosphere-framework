@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Database\Schemas;
+namespace Atmosphere\Database\Schemas;
 
 
 use Illuminate\Database\Capsule\Manager as Capsule;

@@ -1,15 +1,15 @@
 <?php
 
 
-namespace BotFramework;
+namespace Atmosphere;
 
 
-use BotFramework\Core\Container\Container;
+use Atmosphere\Conversations\ConversationHandler;
+use Atmosphere\Container\Container;
 use Longman\TelegramBot\Entities\Update;
-use BotFramework\Core\Container\CurrentUpdate;
-use Longman\TelegramBot\Entities\CallbackQuery;
-use BotFramework\Providers\ScenarioServiceProvider;
-use BotFramework\Providers\MiddlewareServiceProvider;
+use Atmosphere\Container\CurrentUpdate;
+use Atmosphere\Providers\ScenarioServiceProvider;
+use Atmosphere\Providers\MiddlewareServiceProvider;
 
 class LifeCycle
 {
@@ -26,32 +26,27 @@ class LifeCycle
 		{
 			Container::set(Update::class, $update);
 
-			if (CurrentUpdate::isCallbackQuery())
-				self::followCallbackQueryLifeCycle($update->getCallbackQuery());
-			else
-				self::followUpdateLifeCycle($update);
-		}
-	}
+			if (! MiddlewareServiceProvider::putInChains($update) || self::tryToFollowConversationSteps($update))
+				continue;
 
-	/**
-	 * @param CallbackQuery $query
-	 *
-	 * @return void
-	 */
-	private static function followCallbackQueryLifeCycle ($query)
-	{
-		if (MiddlewareServiceProvider::putCallbackQueryInChains($query))
-			ScenarioServiceProvider::putCallbackQueryInChains($query);
+			ScenarioServiceProvider::putInChains($update);
+		}
 	}
 
 	/**
 	 * @param Update $update
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	private static function followUpdateLifeCycle ($update)
+	private static function tryToFollowConversationSteps (Update $update)
 	{
-		if (MiddlewareServiceProvider::putInChains($update))
-			ScenarioServiceProvider::putInChains($update);
+		$conversation_info = ConversationHandler::activeConversationInfo();
+
+		if (is_null($conversation_info))
+			return false;
+
+		ConversationHandler::continueConversation($conversation_info, $update);
+
+		return true;
 	}
 }

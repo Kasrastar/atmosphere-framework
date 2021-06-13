@@ -1,11 +1,11 @@
 <?php
 
 
-namespace BotFramework\Providers;
+namespace Atmosphere\Providers;
 
 
 use Dotenv\Dotenv;
-use BotFramework\Application;
+use Atmosphere\Application;
 use Longman\TelegramBot\Entities\Update;
 
 class Boot

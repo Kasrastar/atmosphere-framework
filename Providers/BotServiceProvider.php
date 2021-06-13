@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Providers;
+namespace Atmosphere\Providers;
 
 
 class BotServiceProvider

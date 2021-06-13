@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Providers;
+namespace Atmosphere\Providers;
 
 
 use Longman\TelegramBot\Entities\Update;
@@ -17,13 +17,6 @@ class MiddlewareServiceProvider
 	public static $middlewares;
 
 	/**
-	 * Registered callback query middlewares
-	 *
-	 * @var array
-	 */
-	public static $callbackQueryMiddlewares;
-
-	/**
 	 * Register middlewares
 	 *
 	 * @param string[] $middlewares
@@ -36,18 +29,6 @@ class MiddlewareServiceProvider
 	}
 
 	/**
-	 * Register callback query middlewares
-	 *
-	 * @param string[] $middlewares
-	 *
-	 * @return void
-	 */
-	public static function setCallbackQueryMiddlewares ($middlewares)
-	{
-		self::$callbackQueryMiddlewares = $middlewares;
-	}
-
-	/**
 	 * @param Update $update
 	 *
 	 * @return bool
@@ -57,22 +38,6 @@ class MiddlewareServiceProvider
 		foreach (self::$middlewares as $middleware)
 		{
 			if (! (new $middleware)->allow($update))
-				return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * @param CallbackQuery $query
-	 *
-	 * @return bool
-	 */
-	public static function putCallbackQueryInChains (CallbackQuery $query)
-	{
-		foreach (self::$callbackQueryMiddlewares as $middleware)
-		{
-			if (! (new $middleware)->allow($query))
 				return false;
 		}
 

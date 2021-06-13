@@ -1,7 +1,7 @@
 <?php
 
 
-namespace BotFramework\Providers;
+namespace Atmosphere\Providers;
 
 
 use Longman\TelegramBot\Entities\Update;
@@ -17,13 +17,6 @@ class ScenarioServiceProvider
 	private static $scenarios;
 
 	/**
-	 * Registered callback query scenarios
-	 *
-	 * @var
-	 */
-	private static $callbackQueryScenarios;
-
-	/**
 	 * Register scenarios
 	 *
 	 * @param string[] $scenarios
@@ -36,18 +29,6 @@ class ScenarioServiceProvider
 	}
 
 	/**
-	 * Register callback query scenarios
-	 *
-	 * @param mixed $scenarios
-	 *
-	 * @return void
-	 */
-	public static function setCallbackQueryScenarios ($scenarios)
-	{
-		self::$callbackQueryScenarios = $scenarios;
-	}
-
-	/**
 	 * @param Update $update
 	 *
 	 * @return void
@@ -57,20 +38,6 @@ class ScenarioServiceProvider
 		foreach (self::$scenarios as $scenario)
 		{
 			if ((new $scenario($update))->run())
-				break;
-		}
-	}
-
-	/**
-	 * @param CallbackQuery $query
-	 *
-	 * @return void
-	 */
-	public static function putCallbackQueryInChains ($query)
-	{
-		foreach (self::$callbackQueryScenarios as $scenario)
-		{
-			if ((new $scenario($query))->run())
 				break;
 		}
 	}

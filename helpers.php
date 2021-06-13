@@ -6,9 +6,9 @@ use Longman\TelegramBot\Entities\User;
 use Longman\TelegramBot\Entities\Update;
 use Illuminate\Database\Capsule\Manager;
 use Longman\TelegramBot\Entities\Message;
-use BotFramework\Core\Container\Container;
-use BotFramework\Core\Gateway\TelegramRequest;
-use BotFramework\Core\Gateway\Response;
+use Atmosphere\Container\Container;
+use Atmosphere\Gateway\TelegramRequest;
+use Atmosphere\Gateway\Response;
 use Longman\TelegramBot\Entities\CallbackQuery;
 
 
@@ -131,7 +131,7 @@ if ( ! function_exists('user'))
 }
 
 
-if ( ! function_exists('str_contains'))
+if ( ! function_exists('string_contains'))
 {
 	/**
 	 * Checks $string if containing $search or not
@@ -141,9 +141,19 @@ if ( ! function_exists('str_contains'))
 	 *
 	 * @return bool
 	 */
-	function str_contains ($string, $search)
+	function string_contains ($string, $search)
 	{
 		return strpos($string, $search) !== false;
+	}
+}
+
+
+if (! function_exists('string_starts_with'))
+{
+	function string_starts_with ($string, $start_string)
+	{
+		$len = strlen($start_string);
+		return substr($string, 0, $len) === $start_string;
 	}
 }
 
@@ -160,5 +170,22 @@ if ( ! function_exists('db_table'))
 	function db_table ($table)
 	{
 		return Manager::table($table);
+	}
+}
+
+
+if (! function_exists('localize'))
+{
+	/**
+	 * Localization
+	 *
+	 * @param $scope
+	 * @param $key
+	 *
+	 * @return string
+	 */
+	function localize($scope, $key)
+	{
+		return new \Atmosphere\Supports\Localizer($scope, $key);
 	}
 }

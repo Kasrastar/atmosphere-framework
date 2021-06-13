@@ -1,10 +1,10 @@
 <?php
 
 
-namespace BotFramework\Providers;
+namespace Atmosphere\Providers;
 
 
-use BotFramework\Application;
+use Atmosphere\Application;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class DatabaseServiceProvider
@@ -64,6 +64,7 @@ class DatabaseServiceProvider
 	public static function build ($rebuild = false)
 	{
 		$schemas = \BotFramework\Application::getSchemas();
+		$schemas = array_merge($schemas, [\BotFramework\Database\Schemas\ConversationSchema::class]);
 
 		if ($rebuild)
 			foreach ($schemas as $schema)

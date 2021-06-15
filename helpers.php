@@ -1,14 +1,15 @@
 <?php
 
 
-use Longman\TelegramBot\Entities\Chat;
-use Longman\TelegramBot\Entities\User;
-use Longman\TelegramBot\Entities\Update;
-use Illuminate\Database\Capsule\Manager;
-use Longman\TelegramBot\Entities\Message;
+use Atmosphere\Supports\Localizer;
 use Atmosphere\Container\Container;
 use Atmosphere\Gateway\TelegramRequest;
 use Atmosphere\Gateway\Response;
+use Illuminate\Database\Capsule\Manager;
+use Longman\TelegramBot\Entities\Chat;
+use Longman\TelegramBot\Entities\User;
+use Longman\TelegramBot\Entities\Update;
+use Longman\TelegramBot\Entities\Message;
 use Longman\TelegramBot\Entities\CallbackQuery;
 
 
@@ -186,6 +187,19 @@ if (! function_exists('localize'))
 	 */
 	function localize($scope, $key)
 	{
-		return new \Atmosphere\Supports\Localizer($scope, $key);
+		return new Localizer($scope, $key);
+	}
+}
+
+
+if (! function_exists('dd'))
+{
+	/**
+	 * Laravel Die & Dump
+	 */
+	function dd()
+	{
+		dump(...func_get_args());
+		die();
 	}
 }

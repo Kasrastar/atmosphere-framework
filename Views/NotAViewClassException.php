@@ -6,11 +6,9 @@ namespace Atmosphere\Views;
 
 class NotAViewClassException extends \Exception
 {
-	protected $message = "The \$var is not a type of \BotFramework\Views\View::class";
-
 	public function __construct ($var)
 	{
-		$this->message = str_replace('\$var', $var, $this->message);
+		$this->message = "The $var is not an instance of \Atmosphere\Views\View::class";
 		parent::__construct($this->message);
 	}
 }

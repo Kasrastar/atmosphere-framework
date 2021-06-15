@@ -4,7 +4,7 @@
 namespace Atmosphere\Conversations;
 
 
-class UndefinedState extends \Exception
+class UndefinedStateException extends \Exception
 {
 	/**
 	 * UndefinedState constructor.
@@ -14,7 +14,9 @@ class UndefinedState extends \Exception
 	public function __construct ($state)
 	{
 		$this->message = "The state:$state is undefined. 
-		It must be Conversation::END or Conversation::TERMINATE or null";
+		It must be Conversation::END 
+		or Conversation::TERMINATE 
+		or instance of ConversationError::class";
 		parent::__construct();
 	}
 }

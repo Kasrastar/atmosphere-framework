@@ -5,11 +5,10 @@ namespace Atmosphere;
 
 
 use Atmosphere\Conversations\ConversationHandler;
-use Atmosphere\Container\Container;
-use Longman\TelegramBot\Entities\Update;
-use Atmosphere\Container\CurrentUpdate;
 use Atmosphere\Providers\ScenarioServiceProvider;
 use Atmosphere\Providers\MiddlewareServiceProvider;
+use Atmosphere\Container\Container;
+use Longman\TelegramBot\Entities\Update;
 
 class LifeCycle
 {

@@ -4,8 +4,6 @@
 namespace Atmosphere;
 
 
-use Exception;
-
 class Application
 {
 	const NORMAL_MODE = 0;
@@ -76,7 +74,7 @@ class Application
 	public static function setMode ($mode)
 	{
 		if (! in_array($mode, [self::NORMAL_MODE, self::TESTING_MODE]))
-			throw new Exception('Undefined Application Mode');
+			throw new \Exception('Undefined Application Mode');
 
 		self::$mode = $mode;
 	}

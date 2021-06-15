@@ -4,8 +4,8 @@
 namespace Atmosphere\Providers;
 
 
-use Dotenv\Dotenv;
 use Atmosphere\Application;
+use Dotenv\Dotenv;
 use Longman\TelegramBot\Entities\Update;
 
 class Boot
@@ -22,11 +22,9 @@ class Boot
 		Dotenv::createImmutable(Application::getDir(), 'config.env')->load();
 		DatabaseServiceProvider::boot($in_memory_database);
 
-		MiddlewareServiceProvider::setMiddlewares(Application::getMiddlewares()['Middlewares']);
-		MiddlewareServiceProvider::setCallbackQueryMiddlewares(Application::getMiddlewares()['CallbackQueryMiddlewares']);
+		MiddlewareServiceProvider::setMiddlewares(Application::getMiddlewares());
 
-		ScenarioServiceProvider::setScenarios(Application::getScenarios()['Scenarios']);
-		ScenarioServiceProvider::setCallbackQueryScenarios(Application::getScenarios()['CallbackQueryScenarios']);
+		ScenarioServiceProvider::setScenarios(Application::getScenarios());
 
 		return new self;
 	}

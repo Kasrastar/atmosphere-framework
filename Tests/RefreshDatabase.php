@@ -4,6 +4,8 @@
 namespace Atmosphere\Tests;
 
 
+use Atmosphere\Providers\DatabaseServiceProvider;
+
 trait RefreshDatabase
 {
 	/**
@@ -13,6 +15,6 @@ trait RefreshDatabase
 	 */
 	public function refreshDatabase ()
 	{
-		\Atmosphere\Providers\DatabaseServiceProvider::build(true);
+		DatabaseServiceProvider::build(true);
 	}
 }

@@ -4,11 +4,11 @@
 namespace Atmosphere\Conversations;
 
 
+use Atmosphere\Models\Conversation as ConversationModel;
+use Illuminate\Database\Eloquent\Model;
 use ReflectionClass;
 use ReflectionMethod;
-use Illuminate\Database\Eloquent\Model;
 use Longman\TelegramBot\Entities\Update;
-use Atmosphere\Models\Conversation as ConversationModel;
 
 class ConversationHandler
 {
@@ -59,8 +59,8 @@ class ConversationHandler
 	{
 		$active_conversation = self::getConversation($conversation_info);
 
-		if ($active_conversation->terminatingCondition($update))
-			self::terminate($conversation_info, $active_conversation);
+		if ($active_conversation->terminator($update))
+			self::terminate($conversation_info, $active_conversation, $update);
 
 		$step = $conversation_info->step;
 
@@ -90,13 +90,19 @@ class ConversationHandler
 	 * @param Update            $update
 	 *
 	 * @return void
-	 * @throws UndefinedState
+	 * @throws UndefinedStateException
 	 */
 	private static function nextStep (ConversationModel $conversation_info,
 		Conversation $active_conversation, $state, $step, Update $update)
 	{
-		if ($state == Conversation::Terminate || $state instanceof ConversationError)
-			self::terminate($conversation_info, $active_conversation);
+		if ($state instanceof ConversationError)
+		{
+			response()->send($state->getError());
+			self::terminate($conversation_info, $active_conversation, $update);
+		}
+
+		else if ($state == Conversation::Terminate)
+			self::terminate($conversation_info, $active_conversation, $update);
 
 		else if ($state == Conversation::END)
 			self::end($active_conversation, $update);
@@ -108,7 +114,7 @@ class ConversationHandler
 		}
 
 		else
-			throw new UndefinedState($state);
+			throw new UndefinedStateException($state);
 	}
 
 	/**
@@ -189,9 +195,9 @@ class ConversationHandler
 	 * @return void
 	 */
 	private static function terminate (ConversationModel $conversation_info,
-		Conversation $active_conversation)
+		Conversation $active_conversation, Update $update)
 	{
-		$active_conversation->onConversationTerminate();
+		$active_conversation->onConversationTerminate($update);
 		ConversationModel::destroy($conversation_info->id);
 	}
 

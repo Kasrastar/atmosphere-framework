@@ -5,7 +5,7 @@ namespace Atmosphere\Providers;
 
 
 use Atmosphere\Application;
-use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Capsule\Manager;
 
 class DatabaseServiceProvider
 {
@@ -18,7 +18,7 @@ class DatabaseServiceProvider
 	 */
 	public static function boot ($in_memory)
 	{
-		$capsule = new Capsule;
+		$capsule = new Manager;
 
 		if ($in_memory)
 		{
@@ -63,8 +63,8 @@ class DatabaseServiceProvider
 	 */
 	public static function build ($rebuild = false)
 	{
-		$schemas = \BotFramework\Application::getSchemas();
-		$schemas = array_merge($schemas, [\BotFramework\Database\Schemas\ConversationSchema::class]);
+		$schemas = \Atmosphere\Application::getSchemas();
+		$schemas = array_merge($schemas, [\Atmosphere\Database\Schemas\ConversationSchema::class]);
 
 		if ($rebuild)
 			foreach ($schemas as $schema)

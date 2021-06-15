@@ -14,7 +14,7 @@ trait Singleton
 	public static function getInstance()
 	{
 		if (is_null(self::$instance))
-			self::$instance = new static();
+			self::$instance = new static(...func_get_args());
 
 		return self::$instance;
 	}

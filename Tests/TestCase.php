@@ -7,9 +7,9 @@ namespace Atmosphere\Tests;
 use Atmosphere\LifeCycle;
 use Atmosphere\Application;
 use Atmosphere\Providers\Boot;
-use Longman\TelegramBot\Entities\Update;
-use PHPUnit\Framework\TestCase as PhpUnit_TestCase;
 use Atmosphere\Providers\DatabaseServiceProvider;
+use PHPUnit\Framework\TestCase as PhpUnit_TestCase;
+use Longman\TelegramBot\Entities\Update;
 
 /**
  * @method refreshDatabase() // Comes from trait in child class

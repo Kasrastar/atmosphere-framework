@@ -21,7 +21,7 @@ trait PropertyInjection
 
 	private function inject ($args)
 	{
-		$properties = array_keys(get_class_vars(self::class));
+		$properties = array_keys(get_class_vars(static::class));
 
 		foreach ($properties as $property)
 		{

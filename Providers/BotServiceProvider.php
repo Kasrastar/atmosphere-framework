@@ -4,6 +4,9 @@
 namespace Atmosphere\Providers;
 
 
+use Longman\TelegramBot\Telegram;
+use Longman\TelegramBot\Exception\TelegramException;
+
 class BotServiceProvider
 {
 	/**
@@ -11,12 +14,12 @@ class BotServiceProvider
 	 *
 	 * @param string $project_dir
 	 *
-	 * @return \Longman\TelegramBot\Telegram
-	 * @throws \Longman\TelegramBot\Exception\TelegramException
+	 * @return Telegram
+	 * @throws TelegramException
 	 */
 	private static function generalInitialization ($project_dir)
 	{
-		$bot = new \Longman\TelegramBot\Telegram($_ENV['BOT_API_TOKEN'], $_ENV['BOT_USERNAME']);
+		$bot = new Telegram($_ENV['BOT_API_TOKEN'], $_ENV['BOT_USERNAME']);
 		$bot->useGetUpdatesWithoutDatabase();
 
 		$bot->addCommandsPath($project_dir . '/App/Commands');
@@ -27,8 +30,8 @@ class BotServiceProvider
 	/**
 	 * @param string $project_dir
 	 *
-	 * @return \Longman\TelegramBot\Telegram
-	 * @throws \Longman\TelegramBot\Exception\TelegramException
+	 * @return Telegram
+	 * @throws TelegramException
 	 */
 	public static function initForGetUpdates ($project_dir)
 	{
@@ -39,7 +42,7 @@ class BotServiceProvider
 	 * @param string $project_dir
 	 *
 	 * @return void
-	 * @throws \Longman\TelegramBot\Exception\TelegramException
+	 * @throws TelegramException
 	 */
 	public static function initForWebhook ($project_dir)
 	{

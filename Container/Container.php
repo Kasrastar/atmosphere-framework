@@ -11,7 +11,7 @@ use Longman\TelegramBot\Entities\Update;
 use Longman\TelegramBot\Entities\Message;
 use Atmosphere\Gateway\TelegramRequest;
 use Longman\TelegramBot\Entities\CallbackQuery;
-use BotFramework\Core\Supports\Traits\Singleton;
+use Atmosphere\Supports\Traits\Singleton;
 
 use function DI\autowire;
 

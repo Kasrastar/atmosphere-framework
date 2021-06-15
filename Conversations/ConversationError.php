@@ -7,16 +7,33 @@ namespace Atmosphere\Conversations;
 class ConversationError
 {
 	/**
+	 * @var string
+	 */
+	private $error;
+
+	/**
 	 * ConversationError constructor.
 	 *
-	 * @param string $title
 	 * @param string $body
+	 * @param string|null $title
 	 */
-	public function __construct ($body, $title = 'Error')
+	public function __construct ($body, $title = null)
 	{
-		$title = '❌ ' . localize('Conversation', 'Error_Title') . '... ❌' .
-			PHP_EOL . ' | — — — — | ' . PHP_EOL . PHP_EOL;
+		if (is_null($title))
+			$title = localize('Conversation', 'Error_Title');
 
-		response()->send($title . $body);
+		$title = '❌ ' . $title . '... ❌' . PHP_EOL . ' | — — — — | ' . PHP_EOL . PHP_EOL;
+
+		$this->error = $title . $body;
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @return string
+	 */
+	public function getError ()
+	{
+		return $this->error;
 	}
 }

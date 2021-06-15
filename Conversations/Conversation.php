@@ -4,8 +4,8 @@
 namespace Atmosphere\Conversations;
 
 
-use Longman\TelegramBot\Entities\Update;
 use Atmosphere\Supports\Traits\PropertyInjection;
+use Longman\TelegramBot\Entities\Update;
 
 abstract class Conversation
 {
@@ -24,7 +24,7 @@ abstract class Conversation
 	 *
 	 * @return bool
 	 */
-	public function terminatingCondition (Update $update) { return false; }
+	public function terminator (Update $update) { return false; }
 
 	/**
 	 * Executes when conversation starts
@@ -43,7 +43,7 @@ abstract class Conversation
 	public function onConversationEnd (Update $last_update) { }
 
 	/**
-	 * Executes when conversation terminates
+	 * Executes when conversation is terminated
 	 *
 	 * @param Update $last_update
 	 */

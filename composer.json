@@ -1,0 +1,16 @@
+{
+  "name": "pialechini/atmosphere-framework",
+  "description": "Core of pialechini/atmosphere",
+  "keywords": [
+    "php", "telegram", "bot", "framework"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mobin Zohourian",
+      "homepage": "https://github.com/pialechini",
+      "role": "maintainer/developer"
+    }
+  ],
+  "homepage": "https://github.com/pialechini/atmosphere-framework"
+}

@@ -5,9 +5,12 @@ namespace Atmosphere\Supports;
 
 
 use Atmosphere\Application;
+use Atmosphere\Supports\Traits\Singleton;
 
 class Localizer
 {
+	use Singleton;
+
 	/**
 	 * Localizer constructor.
 	 *
@@ -16,7 +19,7 @@ class Localizer
 	 *
 	 * @return string
 	 */
-	public function __construct ($scope, $key)
+	public function localize ($scope, $key)
 	{
 		return Application::getLocalizations()[ $scope ][ $key ];
 	}

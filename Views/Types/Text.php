@@ -10,8 +10,17 @@ class Text extends Type
 	const PARSE_AS_Markdown = 'MarkdownV2';
 	const PARSE_AS_SIMPLE_TEXT = null;
 
+	/**
+	 * Text constructor.
+	 *
+	 * @param string|string[] $lines
+	 * @param null|string     $parse_mode
+	 */
 	public function __construct ($lines, $parse_mode = self::PARSE_AS_SIMPLE_TEXT)
 	{
+		if (is_string($lines))
+			$lines = [ $lines ];
+
 		$text = '';
 
 		foreach ($lines as $line)

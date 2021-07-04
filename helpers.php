@@ -187,7 +187,7 @@ if (! function_exists('localize'))
 	 */
 	function localize($scope, $key)
 	{
-		return new Localizer($scope, $key);
+		return Localizer::getInstance()->localize($scope, $key);
 	}
 }
 

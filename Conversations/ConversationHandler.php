@@ -60,9 +60,12 @@ class ConversationHandler
 		$active_conversation = self::getConversation($conversation_info);
 
 		if ($active_conversation->terminator($update))
+		{
 			self::terminate($conversation_info, $active_conversation, $update);
+			return;
+		}
 
-		$step = $conversation_info->step;
+			$step = $conversation_info->step;
 
 		$state = self::getAnswerForPreviousQuestion($active_conversation, $step, $update);
 		self::nextStep($conversation_info, $active_conversation, $state, $step, $update);
@@ -83,11 +86,11 @@ class ConversationHandler
 	/**
 	 * Continue conversation according to state
 	 *
-	 * @param ConversationModel $conversation_info
-	 * @param Conversation      $active_conversation
-	 * @param object|integer|null      $state
-	 * @param integer           $step
-	 * @param Update            $update
+	 * @param ConversationModel   $conversation_info
+	 * @param Conversation        $active_conversation
+	 * @param object|integer|null $state
+	 * @param integer             $step
+	 * @param Update              $update
 	 *
 	 * @return void
 	 * @throws UndefinedStateException
@@ -105,12 +108,12 @@ class ConversationHandler
 			self::terminate($conversation_info, $active_conversation, $update);
 
 		else if ($state == Conversation::END)
-			self::end($active_conversation, $update);
+			self::end($conversation_info, $active_conversation, $update);
 
 		else if (is_null($state))
 		{
-			self::askNewQuestion($active_conversation, $step);
-			self::keepConversation($conversation_info, $active_conversation, ++$step);
+			self::askNewQuestion($active_conversation, ++$step);
+			self::keepConversation($conversation_info, $active_conversation, $step);
 		}
 
 		else
@@ -198,7 +201,7 @@ class ConversationHandler
 		Conversation $active_conversation, Update $update)
 	{
 		$active_conversation->onConversationTerminate($update);
-		ConversationModel::destroy($conversation_info->id);
+		self::deleteDatabaseRecord($conversation_info->id);
 	}
 
 	/**
@@ -209,8 +212,18 @@ class ConversationHandler
 	 *
 	 * @return void
 	 */
-	private static function end (Conversation $active_conversation, Update $update)
+	private static function end (ConversationModel $conversation_info,
+		Conversation $active_conversation, Update $update)
 	{
 		$active_conversation->onConversationEnd($update);
+		self::deleteDatabaseRecord($conversation_info->id);
+	}
+
+	/**
+	 * @param integer $id
+	 */
+	private static function deleteDatabaseRecord ($id)
+	{
+		ConversationModel::destroy($id);
 	}
 }

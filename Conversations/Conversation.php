@@ -46,6 +46,8 @@ abstract class Conversation
 	 * Executes when conversation is terminated
 	 *
 	 * @param Update $last_update
+	 *
+	 * @return void
 	 */
 	public function onConversationTerminate (Update $last_update) { }
 }

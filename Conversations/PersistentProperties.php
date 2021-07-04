@@ -4,8 +4,12 @@
 namespace Atmosphere\Conversations;
 
 
+use Atmosphere\Supports\Traits\PropertyInjection;
+
 trait PersistentProperties
 {
+	use PropertyInjection;
+
 	/**
 	 * onSerialize
 	 *

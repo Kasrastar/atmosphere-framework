@@ -17,16 +17,15 @@
   ],
   "homepage": "https://github.com/pialechini/atmosphere-framework",
   "require": {
-    "illuminate/database": "^7.30",
-    "illuminate/container": "^8.50",
+    "illuminate/database": "^8.52",
+    "illuminate/container": "^8.52",
     "doctrine/inflector": "^2.0.3",
     "vlucas/phpdotenv": "^5.3",
-    "symfony/console": "^5.2",
+    "symfony/console": "^5.3",
     "fzaninotto/faker": "^1.9",
     "longman/telegram-bot": "^0.72.0",
     "danielstjules/stringy": "^3.1",
-    "ext-json": "*",
-    "php-curl-class/php-curl-class": "^9.2"
+    "ext-json": "*"
   },
   "require-dev" : {
     "phpunit/phpunit": "^8.5",

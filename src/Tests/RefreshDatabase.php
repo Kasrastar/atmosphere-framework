@@ -1,10 +1,8 @@
 <?php
 
-
 namespace Atmosphere\Tests;
 
-
-use Atmosphere\Providers\DatabaseServiceProvider;
+use Atmosphere\Database\DatabaseServiceProvider;
 
 trait RefreshDatabase
 {
@@ -15,6 +13,6 @@ trait RefreshDatabase
 	 */
 	public function refreshDatabase ()
 	{
-		DatabaseServiceProvider::build(true);
+		app()->make(DatabaseServiceProvider::class)->build(true);
 	}
 }

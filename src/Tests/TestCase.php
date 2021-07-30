@@ -1,15 +1,11 @@
 <?php
 
-
 namespace Atmosphere\Tests;
 
-
-use Atmosphere\LifeCycle;
-use Atmosphere\Application;
-use Atmosphere\Providers\Boot;
-use Atmosphere\Providers\DatabaseServiceProvider;
-use PHPUnit\Framework\TestCase as PhpUnit_TestCase;
+use Atmosphere\Facade\LifeCycle;
 use Longman\TelegramBot\Entities\Update;
+use Atmosphere\Database\DatabaseServiceProvider;
+use PHPUnit\Framework\TestCase as PhpUnit_TestCase;
 
 /**
  * @method refreshDatabase() // Comes from trait in child class
@@ -24,11 +20,9 @@ class TestCase extends PhpUnit_TestCase
 	 */
 	public static function setUpBeforeClass () : void
 	{
-		Application::setMode(Application::TESTING_MODE);
-		Boot::turnOn(true);
-		DatabaseServiceProvider::build();
+		DatabaseServiceProvider::$in_memory_database = true;
 	}
-
+	
 	/**
 	 * Execute before each test
 	 *
@@ -38,7 +32,18 @@ class TestCase extends PhpUnit_TestCase
 	{
 		$this->checkTrait();
 	}
-
+	
+	/**
+	 * Check child class traits
+	 *
+	 * @return void
+	 */
+	private function checkTrait ()
+	{
+		if ( isset(array_flip(class_uses($this))[ RefreshDatabase::class ]) )
+			$this->refreshDatabase();
+	}
+	
 	/**
 	 * Assume incoming update in test
 	 *
@@ -48,19 +53,6 @@ class TestCase extends PhpUnit_TestCase
 	 */
 	protected function incomingUpdate ($updates)
 	{
-		$updates = is_array($updates) ? $updates : [$updates];
-
-		LifeCycle::takeInto($updates);
-	}
-
-	/**
-	 * Check child class traits
-	 *
-	 * @return void
-	 */
-	private function checkTrait ()
-	{
-		if (isset(array_flip(class_uses($this))[ RefreshDatabase::class ]))
-			$this->refreshDatabase();
+		LifeCycle::takeInto(is_array($updates) ? $updates : [ $updates ]);
 	}
 }

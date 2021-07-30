@@ -1,67 +1,58 @@
 <?php
 
-
-use Atmosphere\Supports\Localizer;
+use Atmosphere\Gateway\Telegram;
+use Atmosphere\Support\Localizer;
 use Atmosphere\Container\Container;
-use Atmosphere\Gateway\TelegramRequest;
-use Atmosphere\Gateway\Response;
-use Illuminate\Database\Capsule\Manager;
 use Longman\TelegramBot\Entities\Chat;
 use Longman\TelegramBot\Entities\User;
+use Illuminate\Database\Capsule\Manager;
 use Longman\TelegramBot\Entities\Update;
 use Longman\TelegramBot\Entities\Message;
 use Longman\TelegramBot\Entities\CallbackQuery;
+use Atmosphere\Database\Repository\UserRepository;
 
-
-if (! function_exists('container'))
+if ( !function_exists('app') )
 {
 	/**
 	 * Get class from global available container
 	 *
-	 * @param $class
-	 *
-	 * @return mixed
-	 * @throws \DI\DependencyException
-	 * @throws \DI\NotFoundException
+	 * @return Container
 	 */
-	function container($class)
+	function app ()
 	{
-		return Container::get($class);
+		return Container::getInstance();
 	}
 }
 
-if ( ! function_exists('telegram'))
+if ( !function_exists('telegram') )
 {
 	/**
 	 * Class used to send messages to specific chat
 	 *
-	 * @return TelegramRequest
+	 * @param int $chat_id
+	 *
+	 * @return Telegram
 	 */
-	function telegram ($chat_id = null)
+	function telegram ($chat_id)
 	{
-		if (is_null($chat_id))
-			return container(TelegramRequest::class);
-		else
-			return new TelegramRequest($chat_id);
+		return app()->makeWith(Telegram::class, [ 'chat_id' => $chat_id ]);
 	}
 }
 
-
-if ( ! function_exists('response'))
+if ( !function_exists('response') )
 {
 	/**
 	 * Smart class to easily send messages to the current chat
 	 *
-	 * @return Response
+	 * @return Telegram
 	 */
 	function response ()
 	{
-		return container(Response::class);
+		return telegram(chat()->getId());
 	}
 }
 
-
-if ( ! function_exists('update'))
+if ( !function_exists('update') )
 {
 	/**
 	 * Get current update instance
@@ -70,12 +61,11 @@ if ( ! function_exists('update'))
 	 */
 	function update ()
 	{
-		return container(Update::class);
+		return app()->make(Update::class);
 	}
 }
 
-
-if (! function_exists('callback_query'))
+if ( !function_exists('callback_query') )
 {
 	/**
 	 * @return CallbackQuery
@@ -83,14 +73,13 @@ if (! function_exists('callback_query'))
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
 	 */
-	function callback_query()
+	function callback_query ()
 	{
-		return container(CallbackQuery::class);
+		return update()->getCallbackQuery();
 	}
 }
 
-
-if ( ! function_exists('message'))
+if ( !function_exists('message') )
 {
 	/**
 	 * Get current message instance
@@ -99,12 +88,11 @@ if ( ! function_exists('message'))
 	 */
 	function message ()
 	{
-		return container(Message::class);
+		return update()->getMessage();
 	}
 }
 
-
-if ( ! function_exists('chat'))
+if ( !function_exists('chat') )
 {
 	/**
 	 * Get current chat instance
@@ -113,12 +101,11 @@ if ( ! function_exists('chat'))
 	 */
 	function chat ()
 	{
-		return container(Chat::class);
+		return message()->getChat();
 	}
 }
 
-
-if ( ! function_exists('user'))
+if ( !function_exists('user') )
 {
 	/**
 	 * Get current user instance
@@ -127,12 +114,23 @@ if ( ! function_exists('user'))
 	 */
 	function user ()
 	{
-		return container(User::class);
+		return message()->getFrom();
 	}
 }
 
+if ( !function_exists('route') )
+{
+	/**
+	 * @param string $path
+	 */
+	function route ($path)
+	{
+		return app()->make(UserRepository::class)
+					->updateUserPath(user()->getId(), $path);
+	}
+}
 
-if ( ! function_exists('string_contains'))
+if ( !function_exists('string_contains') )
 {
 	/**
 	 * Checks $string if containing $search or not
@@ -148,8 +146,7 @@ if ( ! function_exists('string_contains'))
 	}
 }
 
-
-if (! function_exists('string_starts_with'))
+if ( !function_exists('string_starts_with') )
 {
 	function string_starts_with ($string, $start_string)
 	{
@@ -158,8 +155,7 @@ if (! function_exists('string_starts_with'))
 	}
 }
 
-
-if ( ! function_exists('db_table'))
+if ( !function_exists('db_table') )
 {
 	/**
 	 * Query Builder
@@ -174,32 +170,29 @@ if ( ! function_exists('db_table'))
 	}
 }
 
-
-if (! function_exists('localize'))
+if ( !function_exists('localize') )
 {
 	/**
-	 * Localization
+	 * localization
 	 *
 	 * @param $scope
 	 * @param $key
 	 *
 	 * @return string
 	 */
-	function localize($scope, $key)
+	function localize ($scope, $key)
 	{
 		return Localizer::getInstance()->localize($scope, $key);
 	}
 }
 
-
-if (! function_exists('dd'))
+if ( !function_exists('dd') )
 {
 	/**
 	 * Laravel Die & Dump
 	 */
-	function dd()
+	function dd ()
 	{
-		dump(...func_get_args());
-		die();
+		dump(...func_get_args()) && die();
 	}
 }

@@ -25,7 +25,8 @@
     "fzaninotto/faker": "^1.9",
     "longman/telegram-bot": "^0.72.0",
     "danielstjules/stringy": "^3.1",
-    "ext-json": "*"
+    "ext-json": "*",
+    "php-curl-class/php-curl-class": "^9.3"
   },
   "require-dev" : {
     "phpunit/phpunit": "^8.5",

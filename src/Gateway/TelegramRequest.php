@@ -1,146 +1,92 @@
 <?php
 
-
 namespace Atmosphere\Gateway;
-
-
-use Longman\TelegramBot\Request;
 
 class TelegramRequest
 {
 	/**
-	 * Extra (Optional) Parameters Used by Telegram API
+	 * RequestMaker
 	 *
-	 * @var array
+	 * @var \Atmosphere\Gateway\RequestMaker
 	 */
-	private $extraParameters = [];
-
+	private $requestMaker;
+	
 	/**
-	 * @var integer
-	 */
-	private $chatID;
-
-	/**
-	 * TelegramRequest constructor.
+	 * TelegramRequest constructor
 	 *
-	 * @param integer $chat_id
+	 * @param \Atmosphere\Gateway\RequestMaker $request_maker
 	 */
-	public function __construct ($chat_id)
+	public function __construct (RequestMaker $request_maker)
 	{
-		$this->chatID = $chat_id;
+		$this->requestMaker = $request_maker;
 	}
-
+	
 	/**
-	 * Disable notification
+	 * Send simple text message to telegram
 	 *
-	 * @return $this
+	 * @param string|int $chat_id
+	 * @param string     $text
+	 * @param array      $options
 	 */
-	public function silent ()
+	public function sendMessage ($chat_id, $text, $options = [])
 	{
-		$this->extraParameters['disable_notification'] = true;
-		return $this;
+		$this->callApi(__FUNCTION__, compact('chat_id', 'text'), $options);
 	}
-
+	
 	/**
-	 * Send keyboard
+	 * Transport request to telegram
 	 *
-	 * @param \Atmosphere\Keyboards\KeyboardMarkup $keyboard
-	 *
-	 * @return $this
+	 * @param string $method
+	 * @param array  $required_parameters
+	 * @param array  $optional_parameters
 	 */
-	public function keyboard (\Atmosphere\Keyboards\KeyboardMarkup $keyboard)
+	private function callApi ($method, $required_parameters, $optional_parameters)
 	{
-		$this->extraParameters['reply_markup'] = $keyboard->render();
-		return $this;
+		$this->requestMaker->callTelegramApi($method, array_merge($required_parameters, $optional_parameters));
 	}
-
-	/**
-	 * Remove keyboard
-	 *
-	 * @return $this
-	 */
-	public function removeKeyboard ()
+	
+	public function sendPhoto ($chat_id, $photo, $options = [])
 	{
-		$this->extraParameters['reply_markup'] = ['remove_keyboard' =>  true];
-		return $this;
+		$this->callApi(__FUNCTION__, compact('chat_id', 'photo'), $options);
 	}
-
-	/**
-	 * make reply to current message
-	 *
-	 * @return $this
-	 */
-	public function reply ($message_id)
+	
+	public function sendAudio ($chat_id, $audio, $options = [])
 	{
-		$this->extraParameters['reply_to_message_id'] = $message_id;
-		return $this;
+		$this->callApi(__FUNCTION__, compact('chat_id', 'audio'), $options);
 	}
-
-	/**
-	 * Send simple text
-	 *
-	 * @param string $message
-	 *
-	 * @throws \Longman\TelegramBot\Exception\TelegramException
-	 */
-	public function send ($message)
+	
+	public function sendDocument ($chat_id, $document, $options = [])
 	{
-		$this->view(new \Atmosphere\Views\DefaultView(['text' => $message]));
+		$this->callApi(__FUNCTION__, compact('chat_id', 'document'), $options);
 	}
-
-	/**
-	 * Send one or multiple views
-	 *
-	 * @param \Atmosphere\Views\View|\Atmosphere\Views\View[] $views
-	 *
-	 * @throws \Longman\TelegramBot\Exception\TelegramException
-	 */
-	public function view ($views)
+	
+	public function sendVideo ($chat_id, $video, $options = [])
 	{
-		$messages = \Atmosphere\Views\ViewParser::parse($views);
-		$this->callApi($messages);
+		$this->callApi(__FUNCTION__, compact('chat_id', 'video'), $options);
 	}
-
-	/**
-	 * Send messages to specific chat
-	 *
-	 * @param array $messages
-	 *
-	 * @throws \Longman\TelegramBot\Exception\TelegramException
-	 */
-	private function callApi ($messages)
+	
+	public function sendAnimation ($chat_id, $animation, $options = [])
 	{
-		// prevent method from calling telegram api
-		if ($this->isInTestingMode())
-			return;
-
-		foreach ($messages as $message)
-		{
-			$to_be_sent = [ 'chat_id' => $this->chatID ] + $message + $this->extraParameters;
-
-			$type = key($message);
-
-			if ($type == 'text')
-				Request::sendMessage($to_be_sent);
-
-			else if ($type == 'photo')
-				Request::sendPhoto($to_be_sent);
-
-			else if ($type == 'video')
-				Request::sendVideo($to_be_sent);
-
-			else if ($type == 'emoji')
-				Request::sendDice($to_be_sent);
-		}
+		$this->callApi(__FUNCTION__, compact('chat_id', 'animation'), $options);
 	}
-
-	/**
-	 * Check Application mode
-	 *
-	 * @return bool
-	 */
-	private function isInTestingMode ()
+	
+	public function sendVoice ($chat_id, $voice, $options = [])
 	{
-		return \Atmosphere\Application::getMode() == \Atmosphere\Application::TESTING_MODE;
+		$this->callApi(__FUNCTION__, compact('chat_id', 'voice'), $options);
+	}
+	
+	public function sendVideoNote ($chat_id, $video_note, $options = [])
+	{
+		$this->callApi(__FUNCTION__, compact('chat_id', 'video_note'), $options);
+	}
+	
+	public function sendMediaGroup ($chat_id, $media, $options = [])
+	{
+		$this->callApi(__FUNCTION__, compact('chat_id', 'media'), $options);
+	}
+	
+	public function sendLocation ($chat_id, $latitude, $longitude, $options = [])
+	{
+		$this->callApi(__FUNCTION__, compact('chat_id', 'latitude', 'longitude'), $options);
 	}
 }

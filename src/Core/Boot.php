@@ -66,7 +66,7 @@ class Boot
 	{
 		foreach ( $this->serviceProviders as $service )
 		{
-			app()->call([ $service, $method ]);
+			app()->make($service)->$method();
 		}
 	}
 	

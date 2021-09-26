@@ -11,7 +11,7 @@ abstract class AbstractFactory
 	 * @var class-string
 	 */
 	protected static $class;
-	
+
 	/**
 	 * Make object/objects
 	 *
@@ -19,22 +19,24 @@ abstract class AbstractFactory
 	 *
 	 * @return array|mixed
 	 */
-	public static function make ($count = 1)
+	public static function make ( $count = 1 )
 	{
 		$objects = [];
 		$faker = Factory::create();
-		
-		for ( $i = 0; $i < $count; $i++ )
+
+		for ( $i = 0 ; $i < $count ; $i++ )
 		{
 			$objects[] = new static::$class(static::definition($faker));
 		}
-		
+
 		if ( $count == 1 )
+		{
 			return $objects[0];
-		
+		}
+
 		return $objects;
 	}
-	
+
 	/**
 	 * Factory definition
 	 *
@@ -42,5 +44,5 @@ abstract class AbstractFactory
 	 *
 	 * @return array
 	 */
-	abstract static function definition (Generator $faker);
+	abstract static function definition ( Generator $faker );
 }

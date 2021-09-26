@@ -2,7 +2,8 @@
 
 namespace Atmosphere\Gateway;
 
-use Curl\Curl;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class RequestMaker
 {
@@ -10,34 +11,25 @@ class RequestMaker
 	 * @var string
 	 */
 	private $endpoint;
-	
+
 	/**
-	 * @var \Curl\Curl
+	 * @var Client
 	 */
 	private $client;
-	
-	/**
-	 * RequestMaker constructor.
-	 *
-	 * @param string     $token
-	 * @param \Curl\Curl $client
-	 */
-	public function __construct ($token, Curl $client)
+
+	public function __construct ( $token, Client $client )
 	{
 		$this->endpoint = "https://api.telegram.org/bot$token/";
 		$this->client = $client;
 	}
-	
-	/**
-	 * Call a TelegramRequest api method
-	 *
-	 * @param string $name
-	 * @param array  $parameters
-	 *
-	 * @return mixed
-	 */
-	public function callTelegramApi ($name, $parameters)
+
+	public function callTelegramApi ( $method_name, $parameters )
 	{
-		return $this->client->post($this->endpoint . $name, $parameters);
+		try {
+			return $this->client->post($this->endpoint . $method_name, $parameters);
+		}
+		catch (GuzzleException $ex) {
+
+		}
 	}
 }

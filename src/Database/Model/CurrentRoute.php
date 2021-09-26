@@ -8,12 +8,12 @@ use Atmosphere\Routing\RouteBuilder;
 class CurrentRoute extends Model
 {
 	protected $guarded = [ 'id' ];
-	
-	public function setPathAttribute ($value)
+
+	public function setPathAttribute ( $value )
 	{
 		$this->attributes['path'] = $value === '/' ? '/' : RouteBuilder::correctPath($value);
 	}
-	
+
 	public function users ()
 	{
 		return $this->hasMany(User::class, 'current_route_id', 'id');

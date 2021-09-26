@@ -8,13 +8,13 @@ use Atmosphere\Support\Traits\PropertyInjection;
 abstract class Conversation
 {
 	use PropertyInjection;
-	
+
 	/**
 	 * Conversation Terminator TOKEN
 	 */
 	const END = 1;
 	const Terminate = -1;
-	
+
 	/**
 	 * Terminator
 	 *
@@ -22,15 +22,20 @@ abstract class Conversation
 	 *
 	 * @return bool
 	 */
-	public function terminator (Update $update) { return false; }
-	
+	public function terminator ( Update $update )
+	{
+		return false;
+	}
+
 	/**
 	 * Executes when conversation starts
 	 *
 	 * @return void
 	 */
-	public function onConversationStart () { }
-	
+	public function onConversationStart ()
+	{
+	}
+
 	/**
 	 * Executes when conversation is finished
 	 *
@@ -38,8 +43,10 @@ abstract class Conversation
 	 *
 	 * @return void
 	 */
-	public function onConversationEnd (Update $last_update) { }
-	
+	public function onConversationEnd ( Update $last_update )
+	{
+	}
+
 	/**
 	 * Executes when conversation is terminated
 	 *
@@ -47,5 +54,7 @@ abstract class Conversation
 	 *
 	 * @return void
 	 */
-	public function onConversationTerminate (Update $last_update) { }
+	public function onConversationTerminate ( Update $last_update )
+	{
+	}
 }

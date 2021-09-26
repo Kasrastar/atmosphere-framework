@@ -11,7 +11,7 @@ class UndefinedStateException extends Exception
 	 *
 	 * @param $state
 	 */
-	public function __construct ($state)
+	public function __construct ( $state )
 	{
 		$this->message = "The state:$state is undefined. 
 		It must be Conversation::END 

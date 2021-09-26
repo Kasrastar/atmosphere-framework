@@ -10,15 +10,22 @@ abstract class Facade
 	 * @var array
 	 */
 	protected static $admissibleMethods;
-	
-	public static function __callStatic ($name, $arguments)
+
+	public static function __callStatic ( $name, $arguments )
 	{
 		if ( !in_array($name, static::$admissibleMethods) )
+		{
 			throw new UndefinedMethodException('UnAccessible method called on facade');
-		
+		}
+
 		return self::resolveInstance(static::getFacadeAccessor())->$name(...$arguments);
 	}
-	
+
+	/**
+	 * @return string
+	 */
+	abstract protected static function getFacadeAccessor ();
+
 	/**
 	 * Resolve instance and return it
 	 *
@@ -26,13 +33,8 @@ abstract class Facade
 	 *
 	 * @return mixed
 	 */
-	private static function resolveInstance ($class)
+	private static function resolveInstance ( $class )
 	{
 		return app()->make($class);
 	}
-	
-	/**
-	 * @return string
-	 */
-	abstract protected static function getFacadeAccessor ();
 }

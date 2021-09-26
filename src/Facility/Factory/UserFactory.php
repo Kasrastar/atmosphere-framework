@@ -11,13 +11,13 @@ class UserFactory extends AbstractFactory
 	 * @var class-string
 	 */
 	protected static $class = User::class;
-	
+
 	/**
 	 * @param Generator $faker
 	 *
 	 * @return array
 	 */
-	public static function definition (Generator $faker)
+	public static function definition ( Generator $faker )
 	{
 		return [
 			'id'            => $faker->randomNumber(8),

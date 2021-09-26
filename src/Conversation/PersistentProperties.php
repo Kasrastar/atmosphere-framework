@@ -7,7 +7,7 @@ use Atmosphere\Support\Traits\PropertyInjection;
 trait PersistentProperties
 {
 	use PropertyInjection;
-	
+
 	/**
 	 * onSerialize
 	 *

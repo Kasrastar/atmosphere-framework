@@ -12,22 +12,26 @@ abstract class ServiceProvider
 	 * @var \Illuminate\Container\Container
 	 */
 	protected $app;
-	
+
 	/**
-	 * ServiceProvider constructor.
+	 * @param \Atmosphere\Container\Container $app
 	 */
-	public function __construct ()
+	public function __construct ( Container $app )
 	{
-		$this->app = Container::getInstance();
+		$this->app = $app;
 	}
-	
+
 	/**
 	 * Register bindings into Service Container
 	 */
-	public function register () { }
-	
+	public function register ()
+	{
+	}
+
 	/**
 	 * Boot application
 	 */
-	public function boot () { }
+	public function boot ()
+	{
+	}
 }

@@ -1,8 +1,11 @@
 <?php
 
+use DI\NotFoundException;
+use DI\DependencyException;
 use Atmosphere\Gateway\Telegram;
 use Atmosphere\Support\Localizer;
 use Atmosphere\Container\Container;
+use Illuminate\Database\Query\Builder;
 use Longman\TelegramBot\Entities\Chat;
 use Longman\TelegramBot\Entities\User;
 use Illuminate\Database\Capsule\Manager;
@@ -33,7 +36,7 @@ if ( !function_exists('telegram') )
 	 *
 	 * @return Telegram
 	 */
-	function telegram ($chat_id)
+	function telegram ( $chat_id )
 	{
 		return app()->makeWith(Telegram::class, [ 'chat_id' => $chat_id ]);
 	}
@@ -70,8 +73,8 @@ if ( !function_exists('callback_query') )
 	/**
 	 * @return CallbackQuery
 	 *
-	 * @throws \DI\DependencyException
-	 * @throws \DI\NotFoundException
+	 * @throws DependencyException
+	 * @throws NotFoundException
 	 */
 	function callback_query ()
 	{
@@ -123,10 +126,10 @@ if ( !function_exists('route') )
 	/**
 	 * @param string $path
 	 */
-	function route ($path)
+	function route ( $path, $call_event = false )
 	{
 		return app()->make(UserRepository::class)
-					->updateUserPath(user()->getId(), $path);
+		            ->updateUserPath(user()->getId(), $path, $call_event);
 	}
 }
 
@@ -140,7 +143,7 @@ if ( !function_exists('string_contains') )
 	 *
 	 * @return bool
 	 */
-	function string_contains ($string, $search)
+	function string_contains ( $string, $search )
 	{
 		return strpos($string, $search) !== false;
 	}
@@ -148,7 +151,7 @@ if ( !function_exists('string_contains') )
 
 if ( !function_exists('string_starts_with') )
 {
-	function string_starts_with ($string, $start_string)
+	function string_starts_with ( $string, $start_string )
 	{
 		$len = strlen($start_string);
 		return substr($string, 0, $len) === $start_string;
@@ -162,9 +165,9 @@ if ( !function_exists('db_table') )
 	 *
 	 * @param string $table
 	 *
-	 * @return \Illuminate\Database\Query\Builder
+	 * @return Builder
 	 */
-	function db_table ($table)
+	function db_table ( $table )
 	{
 		return Manager::table($table);
 	}
@@ -180,7 +183,7 @@ if ( !function_exists('localize') )
 	 *
 	 * @return string
 	 */
-	function localize ($scope, $key)
+	function localize ( $scope, $key )
 	{
 		return Localizer::getInstance()->localize($scope, $key);
 	}

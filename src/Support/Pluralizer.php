@@ -63,7 +63,7 @@ class Pluralizer
 		'traffic',
 		'wheat',
 	];
-	
+
 	/**
 	 * Get the plural form of an English word.
 	 *
@@ -72,39 +72,27 @@ class Pluralizer
 	 *
 	 * @return string
 	 */
-	public static function plural ($value, $count = 2)
+	public static function plural ( $value, $count = 2 )
 	{
 		if ( (int) abs($count) === 1 || static::uncountable($value) )
 		{
 			return $value;
 		}
-		
+
 		$plural = static::inflector()->pluralize($value);
-		
+
 		return static::matchCase($plural, $value);
 	}
-	
-	/**
-	 * Determine if the given value is uncountable.
-	 *
-	 * @param string $value
-	 *
-	 * @return bool
-	 */
-	protected static function uncountable ($value)
-	{
-		return in_array(strtolower($value), static::$uncountable);
-	}
-	
+
 	/**
 	 * Get the inflector instance.
 	 *
-	 * @return \Doctrine\Inflector\Inflector
+	 * @return Inflector
 	 */
 	public static function inflector ()
 	{
 		static $inflector;
-		
+
 		if ( is_null($inflector) )
 		{
 			$inflector = new Inflector(
@@ -116,10 +104,36 @@ class Pluralizer
 				))
 			);
 		}
-		
+
 		return $inflector;
 	}
-	
+
+	/**
+	 * Get the singular form of an English word.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public static function singular ( $value )
+	{
+		$singular = static::inflector()->singularize($value);
+
+		return static::matchCase($singular, $value);
+	}
+
+	/**
+	 * Determine if the given value is uncountable.
+	 *
+	 * @param string $value
+	 *
+	 * @return bool
+	 */
+	protected static function uncountable ( $value )
+	{
+		return in_array(strtolower($value), static::$uncountable);
+	}
+
 	/**
 	 * Attempt to match the case on two strings.
 	 *
@@ -128,10 +142,10 @@ class Pluralizer
 	 *
 	 * @return string
 	 */
-	protected static function matchCase ($value, $comparison)
+	protected static function matchCase ( $value, $comparison )
 	{
 		$functions = [ 'mb_strtolower', 'mb_strtoupper', 'ucfirst', 'ucwords' ];
-		
+
 		foreach ( $functions as $function )
 		{
 			if ( $function($comparison) === $comparison )
@@ -139,21 +153,7 @@ class Pluralizer
 				return $function($value);
 			}
 		}
-		
+
 		return $value;
-	}
-	
-	/**
-	 * Get the singular form of an English word.
-	 *
-	 * @param string $value
-	 *
-	 * @return string
-	 */
-	public static function singular ($value)
-	{
-		$singular = static::inflector()->singularize($value);
-		
-		return static::matchCase($singular, $value);
 	}
 }

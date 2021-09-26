@@ -19,9 +19,17 @@ trait InlineKeyboardButton
 	 *
 	 * @return array|void
 	 */
-	private function button ($text, $callback_data = null, $url = null, $login_url = null, $switch_inline_query = null,
-							 $switch_inline_query_current_chat = null, $callback_game = null, $pay = null)
-	{
-		return compact('text', 'callback_data', 'url', 'login_url', 'switch_inline_query', 'switch_inline_query_current_chat', 'callback_game', 'pay');
+	private function button (
+		$text,
+		$callback_data = null,
+		$url = null,
+		$login_url = null,
+		$switch_inline_query = null,
+		$switch_inline_query_current_chat = null,
+		$callback_game = null,
+		$pay = null
+	) {
+		return compact('text', 'callback_data', 'url', 'login_url', 'switch_inline_query',
+			'switch_inline_query_current_chat', 'callback_game', 'pay');
 	}
 }

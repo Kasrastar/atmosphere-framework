@@ -10,7 +10,7 @@ abstract class TableSchema
 	 * @var string
 	 */
 	protected $tableName;
-	
+
 	/**
 	 * Drop table
 	 *
@@ -21,7 +21,7 @@ abstract class TableSchema
 		Capsule::schema()->dropIfExists($this->tableName);
 		return $this;
 	}
-	
+
 	/**
 	 * Create table only if not already there
 	 *
@@ -30,9 +30,11 @@ abstract class TableSchema
 	public function createIfNotExists ()
 	{
 		if ( !Capsule::schema()->hasTable($this->tableName) )
+		{
 			$this->up();
+		}
 	}
-	
+
 	/**
 	 * Create table with defined schema
 	 *

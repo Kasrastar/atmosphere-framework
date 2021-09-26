@@ -2,70 +2,94 @@
 
 namespace Atmosphere\Routing;
 
+use Closure;
+
 class Route
 {
 	/**
 	 * @var string[]
 	 */
 	private $middlewares;
-	
+
+	/**
+	 * @var callable
+	 */
+	private $event;
+
 	/**
 	 * @var callable
 	 */
 	private $callback;
-	
+
 	/**
 	 * @var string
 	 */
 	private $path;
-	
+
 	/**
 	 * @var string
 	 */
 	private $type;
-	
+
 	/**
-	 * Route constructor.
-	 *
-	 * @param string[] $middlewares
-	 * @param callable $callback
-	 * @param string   $path
 	 * @param string   $type
+	 * @param string[] $middlewares
+	 * @param callable $event
+	 * @param string   $path
+	 * @param callable $callback
 	 */
-	public function __construct ($middlewares, $callback, $path, $type)
+	public function __construct ( $type, $middlewares, $event, $path, $callback )
 	{
-		$this->middlewares = $middlewares;
-		$this->callback = $callback;
-		$this->path = $path;
 		$this->type = $type;
+		$this->event = $event;
+		$this->middlewares = $middlewares;
+		$this->path = $path;
+		$this->callback = $callback;
 	}
-	
+
 	public function getPath ()
 	{
 		return $this->path;
 	}
-	
+
 	public function getType ()
 	{
 		return $this->type;
 	}
-	
-	public function dispatch ()
+
+	/**
+	 * @param boolean $call_event
+	 * @return mixed|null
+	 */
+	public function dispatch ( $call_event )
 	{
-		if ( $this->dispatchToMiddlewares() )
-			return app()->call($this->callback);
-		
-		return null;
+		if ( !$this->dispatchToMiddlewares() )
+			return null;
+
+		if ( $call_event )
+			$this->invokeCallback($this->event);
+
+		return $this->invokeCallback($this->callback);
 	}
-	
+
 	private function dispatchToMiddlewares ()
 	{
 		foreach ( $this->middlewares as $middleware )
-		{
-			if ( !app()->call([ $middleware, 'allow' ]) )
+			if ( !$this->invokeCallback([ $middleware, 'allow' ]) )
 				return false;
-		}
-		
+
 		return true;
+	}
+
+	/**
+	 * @param callable $callback
+	 * @return mixed
+	 */
+	private function invokeCallback ( $callback )
+	{
+		if ( !$callback instanceof Closure )
+			$callback = [ app()->make($callback[0]), $callback[1] ];
+
+		return app()->call($callback);
 	}
 }

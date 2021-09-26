@@ -15,61 +15,61 @@ class UserRepository
 	 *
 	 * @return bool
 	 */
-	public function registerUserIfNotExists ($telegram_id, $username, $full_name)
+	public function registerUserIfNotExists ( $telegram_id, $username, $full_name )
 	{
-		if (is_null($this->getUser($telegram_id)))
+		if ( is_null($this->getUser($telegram_id)) )
 		{
 			User::create(compact('telegram_id', 'username', 'full_name'));
-			return $this->updateUserPath($telegram_id, '/');
+			return $this->updateUserPath($telegram_id, '/', false);
 		}
-		
+
 		return false;
 	}
-	
-	/**
-	 * @param string $path
-	 *
-	 * @return Model
-	 */
-	private function firstOrCreateRoute ($path)
-	{
-		return CurrentRoute::firstOrCreate([ 'path' => $path ]);
-	}
-	
-	public function getCurrentPath ($telegram_id)
-	{
-		return is_null($route = $this->getUser($telegram_id)->current_route) ? null : $route->path;
-	}
-	
+
 	/**
 	 * @param int $telegram_id
 	 *
 	 * @return Model
 	 */
-	public function getUser ($telegram_id)
+	public function getUser ( $telegram_id )
 	{
 		return User::whereTelegramId($telegram_id)->first();
 	}
-	
+
 	/**
 	 * @param int    $telegram_id
 	 * @param string $path
 	 *
 	 * @return bool
 	 */
-	public function updateUserPath ($telegram_id, $path)
+	public function updateUserPath ( $telegram_id, $path, $call_event )
 	{
-		return $this->associateRoute($this->getUser($telegram_id), $this->firstOrCreateRoute($path));
+		return $this->associateRoute($this->getUser($telegram_id), $this->firstOrCreateRoute($path, $call_event));
 	}
-	
+
+	public function getCurrentPath ( $telegram_id )
+	{
+		return is_null($route = $this->getUser($telegram_id)->current_route) ? null : $route->path;
+	}
+
 	/**
-	 * @param \Atmosphere\Database\Model\Model $user
-	 * @param \Atmosphere\Database\Model\Model $route
+	 * @param Model $user
+	 * @param Model $route
 	 *
 	 * @return bool
 	 */
-	private function associateRoute (Model $user, Model $route)
+	private function associateRoute ( Model $user, Model $route )
 	{
 		return $user->current_route()->associate($route)->save();
+	}
+
+	/**
+	 * @param string $path
+	 *
+	 * @return Model
+	 */
+	private function firstOrCreateRoute ( $path, $call_event )
+	{
+		return CurrentRoute::firstOrCreate([ 'path' => $path, 'call_event' => $call_event ]);
 	}
 }

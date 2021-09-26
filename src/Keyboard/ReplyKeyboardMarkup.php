@@ -8,17 +8,17 @@ abstract class ReplyKeyboardMarkup implements KeyboardMarkup
 	 * @var boolean
 	 */
 	protected $resize_keyboard = true;
-	
+
 	/**
 	 * @var boolean
 	 */
 	protected $one_time_keyboard = false;
-	
+
 	/**
 	 * @var boolean
 	 */
 	protected $selective = false;
-	
+
 	/**
 	 * @return array
 	 */
@@ -31,7 +31,7 @@ abstract class ReplyKeyboardMarkup implements KeyboardMarkup
 			'selective'         => $this->selective,
 		];
 	}
-	
+
 	/**
 	 * @return array
 	 */

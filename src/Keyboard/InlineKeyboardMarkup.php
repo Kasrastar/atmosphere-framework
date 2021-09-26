@@ -13,7 +13,7 @@ abstract class InlineKeyboardMarkup implements KeyboardMarkup
 			'inline_keyboard' => $this->template(),
 		];
 	}
-	
+
 	/**
 	 * @return array
 	 */

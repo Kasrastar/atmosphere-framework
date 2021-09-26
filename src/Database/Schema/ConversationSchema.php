@@ -8,7 +8,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 class ConversationSchema extends TableSchema
 {
 	protected $tableName = 'conversations';
-	
+
 	/**
 	 * Conversation Scheme
 	 *
@@ -16,7 +16,7 @@ class ConversationSchema extends TableSchema
 	 */
 	public function up ()
 	{
-		Capsule::schema()->create($this->tableName, function (Blueprint $table) {
+		Capsule::schema()->create($this->tableName, function ( Blueprint $table ) {
 			$table->id();
 			$table->unsignedInteger('user_id')->unique();
 			$table->unsignedInteger('step')->default(0);

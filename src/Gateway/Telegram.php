@@ -7,7 +7,7 @@ use Atmosphere\Keyboard\KeyboardMarkup;
 /**
  * Class Telegram
  *
- * @method self sendMessage( $text )
+ * @method self sendMessage($text)
  */
 class Telegram
 {
@@ -17,53 +17,42 @@ class Telegram
 	 * @var array
 	 */
 	private $extraParameters = [];
-	
+
 	/**
 	 * @var int
 	 */
 	private $chatID;
-	
+
 	/**
-	 * @var \Atmosphere\Gateway\TelegramRequest
+	 * @var TelegramRequest
 	 */
 	private $telegram_request;
-	
+
 	/**
 	 * TelegramRequest constructor.
 	 *
-	 * @param \Atmosphere\Gateway\TelegramRequest $telegram_request
-	 * @param string|int                          $chat_id
+	 * @param TelegramRequest $telegram_request
+	 * @param string|int      $chat_id
 	 */
-	public function __construct (TelegramRequest $telegram_request, $chat_id)
+	public function __construct ( TelegramRequest $telegram_request, $chat_id )
 	{
 		$this->chatID = $chat_id;
 		$this->telegram_request = $telegram_request;
 	}
-	
+
 	/**
 	 * @param $name
 	 * @param $arguments
 	 *
-	 * @return \Atmosphere\Gateway\Telegram
+	 * @return Telegram
 	 */
-	public function __call ($name, $arguments)
+	public function __call ( $name, $arguments )
 	{
-		$arguments = array_merge($arguments, [$this->extraParameters]);
+		$arguments = array_merge($arguments, [ $this->extraParameters ]);
 		$this->telegram_request->$name($this->chatID, ...$arguments);
 		return $this->flush();
 	}
-	
-	/**
-	 * Clear extra parameters
-	 *
-	 * @return $this
-	 */
-	private function flush ()
-	{
-		$this->extraParameters = [];
-		return $this;
-	}
-	
+
 	/**
 	 * Disable notification
 	 *
@@ -74,20 +63,20 @@ class Telegram
 		$this->extraParameters['disable_notification'] = true;
 		return $this;
 	}
-	
+
 	/**
 	 * Send keyboard
 	 *
-	 * @param \Atmosphere\Keyboard\KeyboardMarkup $keyboard
+	 * @param KeyboardMarkup $keyboard
 	 *
 	 * @return $this
 	 */
-	public function withKeyboard (KeyboardMarkup $keyboard)
+	public function withKeyboard ( KeyboardMarkup $keyboard )
 	{
 		$this->extraParameters['reply_markup'] = json_encode($keyboard->render());
 		return $this;
 	}
-	
+
 	/**
 	 * Remove keyboard
 	 *
@@ -98,15 +87,26 @@ class Telegram
 		$this->extraParameters['reply_markup'] = [ 'remove_keyboard' => true ];
 		return $this;
 	}
-	
+
 	/**
 	 * Make a reply to specific message
 	 *
 	 * @return $this
 	 */
-	public function replyTo ($message_id)
+	public function replyTo ( $message_id )
 	{
 		$this->extraParameters['reply_to_message_id'] = $message_id;
+		return $this;
+	}
+
+	/**
+	 * Clear extra parameters
+	 *
+	 * @return $this
+	 */
+	private function flush ()
+	{
+		$this->extraParameters = [];
 		return $this;
 	}
 }

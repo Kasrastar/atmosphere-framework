@@ -10,10 +10,10 @@ use Atmosphere\Routing\RouteBuilder;
  *
  * @method static RouteBuilder middleware(string|array $aliases)
  * @method static RouteBuilder root(array|Closure $callback)
- * @method static RouteBuilder text( string $path, array|Closure $callback )
- * @method static RouteBuilder photo( string $path, array|Closure $callback )
- * @method static RouteBuilder video( string $path, array|Closure $callback )
- * @method static RouteBuilder any( string $path, array|Closure $callback )
+ * @method static RouteBuilder text(string $path, array|Closure $callback)
+ * @method static RouteBuilder photo(string $path, array|Closure $callback)
+ * @method static RouteBuilder video(string $path, array|Closure $callback)
+ * @method static RouteBuilder any(string $path, array|Closure $callback)
  */
 class Route extends Facade
 {
@@ -28,7 +28,7 @@ class Route extends Facade
 		'photo',
 		'video',
 	];
-	
+
 	/**
 	 * @inheritDoc
 	 */

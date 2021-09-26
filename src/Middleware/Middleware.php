@@ -13,5 +13,5 @@ abstract class Middleware
 	 *
 	 * @return bool
 	 */
-	abstract public function allow (Update $update);
+	abstract public function allow ( Update $update );
 }

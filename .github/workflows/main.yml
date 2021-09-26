@@ -22,4 +22,4 @@ jobs:
       - name: Prettier Action
         uses: creyD/prettier_action@v4.0
         with:
-          prettier_options: --write **/*.{php}
+          prettier_options: --write "./**/*.{php}"

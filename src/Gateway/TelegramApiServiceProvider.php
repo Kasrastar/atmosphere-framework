@@ -17,7 +17,16 @@ class TelegramApiServiceProvider extends ServiceProvider
 		
 		$application = $this->app->make(Application::class);
 		$bot = new Telegram($application->getApiToken(), $application->getBotUsername());
-		$bot->useGetUpdatesWithoutDatabase();
+
+        $mysql_credentials = [
+            'host'     => $_ENV['DB_HOST'],
+            'port'     => 3306, // optional
+            'user'     => $_ENV['DB_USERNAME'],
+            'password' => $_ENV['DB_PASSWORD'],
+            'database' => $_ENV['DB_DATABASE'],
+        ];
+
+		$bot->enableMySql($mysql_credentials);
 		$this->app->instance(Telegram::class, $bot);
 		
 		$this->app->bind(RequestMaker::class, function () use ($application){
